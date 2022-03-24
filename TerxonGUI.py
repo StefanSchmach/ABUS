@@ -1,7 +1,12 @@
 import tkinter as ttk
 
 TxtValue = ""
-ProgrammierID = 0
+AusgabeText = ""
+BereichID = 1000
+#1000 = Start
+#999 = 0 Bereich
+#7890 = Programmier Bereich
+# x>250 = Menüpunkte Programmierbereich
 
 def addToTxt(x):
     global TxtValue
@@ -16,132 +21,174 @@ def Delete(x):
     print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
 
 def ConfirmEntrance(q):
-    #Var Inport
     global TxtValue
-    global NullNum
-    global ProgrammierID
-    #global AusgabeText
-
+    global BereichID
+    global AusgabeText
     iTxtValue= int(TxtValue)
     CodeLenght = len(TxtValue)
+    Delete(1)
     print("def: ConfirmEntrance")
     NullFront = "%03d" % (iTxtValue)
     print(NullFront)
-    if CodeLenght == 1 :
-        if iTxtValue == 0:
-            print("0 Bereich: Programmier Passwort eingeben")
-            AusgabeText = "Programmier Passwort eingeben"
-            Delete(1)
-            print(AusgabeText)
-
-            print(ProgrammierID)
-            AusgabeText.str("Programmier Passwort eingeben")
-        elif iTxtValue != 0:
-            print("Error: Wrong Input")
-            AusgabeText.set("Programmier Passwort eingeben")
-    elif CodeLenght == 4:
+   # if CodeLenght == 1 :
+    if iTxtValue == 0 and BereichID == 1000:
+        print("0 Bereich: Programmier Passwort eingeben")
+        AusgabeText = "Programmier Passwort eingeben"
+        print(AusgabeText)
+        Delete(1)
+        BereichID = 999
+        print(BereichID)
+        #AusgabeText.set("Programmier Passwort eingeben")
+    elif CodeLenght == 4 and BereichID == 999:
         if iTxtValue == 7890:
             print("Passwort richtig")
             Delete(1)
-    elif CodeLenght == 3:
+            BereichID = 7890
+            print("BereichID: ", BereichID)
+    elif CodeLenght == 3 and BereichID == 7890:
         print("Menüpunkt-Code")
         Menüpunkt = iTxtValue
         if Menüpunkt == 0:
             print("Menüpunkt: 000")
+            BereichID = 0
             Delete(1)
         elif  iTxtValue >= 1 and iTxtValue <= 8:
             print("Menüpunkt: 001 - 008")
-            Delete(x)
+            BereichID =  1
+            Delete(1)
         elif Menüpunkt == 20:
             print("Menüpunkt: 020")
-            Delete(x)
+            BereichID = 20
+            Delete(1)
         elif Menüpunkt == 21:
             print("Menüpunkt: 021")
-            Delete(x)
+            BereichID = 21
+            Delete(1)
         elif Menüpunkt == 22:
             print("Menüpunkt: 022")
-            Delete(x)
+            BereichID = 22
+            Delete(1)
         elif Menüpunkt == 23:
             print("Menüpunkt: 023")
-            Delete(x)
+            BereichID = 23
+            Delete(1)
         elif Menüpunkt == 24:
             print("Menüpunkt: 024")
-            Delete(x)
+            BereichID = 24
+            Delete(1)
         elif Menüpunkt == 25:
             print("Menüpunkt: 025")
-            Delete(x)
+            BereichID = 25
+            Delete(1)
         elif Menüpunkt == 26:
             print("Menüpunkt: 026")
-            Delete(x)
+            BereichID = 26
+            Delete(1)
         elif Menüpunkt == 27:
             print("Menüpunkt: 027")
-            Delete(x)
+            BereichID = 27
+            Delete(1)
         elif Menüpunkt == 28:
             print("Menüpunkt: 028")
-            Delete(x)
+            BereichID =28
+            Delete(1)
         elif Menüpunkt == 29:
             print("Menüpunkt: 029")
-            Delete(x)
+            BereichID = 29
+            Delete(1)
         elif Menüpunkt == 30:
             print("Menüpunkt: 030")
-            Delete(x)
+            BereichID = 30
+            Delete(1)
         elif Menüpunkt == 31:
             print("Menüpunkt: 031")
-            Delete(x)
+            BereichID = 31
+            Delete(1)
         elif Menüpunkt == 32:
             print("Menüpunkt: 032")
-            Delete(x)
+            BereichID = 32
+            Delete(1)
         elif Menüpunkt == 33:
             print("Menüpunkt: 033")
-            Delete(x)
+            BereichID = 33
+            Delete(1)
         elif Menüpunkt == 34:
             print("Menüpunkt: 034")
-            Delete(x)
+            BereichID = 34
+            Delete(1)
         elif Menüpunkt == 35:
             print("Menüpunkt: 035")
-            Delete(x)
+            BereichID = 35
+            Delete(1)
         elif Menüpunkt == 36:
             print("Menüpunkt: 036")
-            Delete(x)
+            BereichID = 36
+            Delete(1)
         elif Menüpunkt == 37:
             print("Menüpunkt: 037")
-            Delete(x)
+            BereichID = 37
+            Delete(1)
         elif Menüpunkt == 38:
             print("Menüpunkt: 038")
-            Delete(x)
+            BereichID = 38
+            Delete(1)
         elif Menüpunkt == 39:
             print("Menüpunkt: 039")
-            Delete(x)
+            BereichID = 39
+            Delete(1)
         elif Menüpunkt == 40:
             print("Menüpunkt: 040")
-            Delete(x)
+            BereichID = 40
+            Delete(1)
         elif Menüpunkt == 41:
             print("Menüpunkt: 041")
-            Delete(x)
+            BereichID = 41
+            Delete(1)
         elif Menüpunkt == 42:
             print("Menüpunkt: 042")
-            Delete(x)
+            BereichID = 42
+            Delete(1)
         elif Menüpunkt == 43:
             print("Menüpunkt: 043")
-            Delete(x)
+            BereichID = 43
+            Delete(1)
         elif Menüpunkt == 44:
             print("Menüpunkt: 044")
-            Delete(x)
+            BereichID = 44
+            Delete(1)
         elif Menüpunkt == 45:
             print("Menüpunkt: 045")
-            Delete(x)
+            BereichID = 45
+            Delete(1)
         elif Menüpunkt == 46:
             print("Menüpunkt: 046")
-            Delete(x)
+            BereichID = 46
+            Delete(1)
         elif Menüpunkt == 47:
             print("Menüpunkt: 047")
-            Delete(x)
+            BereichID = 47
+            Delete(1)
         elif Menüpunkt == 48:
             print("Menüpunkt: 048")
-            Delete(x)
+            BereichID = 48
+            Delete(1)
         elif Menüpunkt == 50:
             print("Menüpunkt: 050")
-            Delete(x)
+            BereichID = 50
+            Delete(1)
+    elif BereichID < 250:
+        print("<250")
+        EinstellungsPunkte(iTxtValue)
+
+def EinstellungsPunkte(iTxtValue):
+    global TxtValue
+    global BereichID
+    print("Hello")
+    if BereichID == 0:
+        if iTxtValue == 0:
+            print("UK - Großbritannien")
+        elif iTxtValue == 1:
+            print("I - Italien")
 
 win = ttk.Tk()
 win.title('Terxon Simulator')
@@ -211,8 +258,7 @@ ConfirmButton.grid(row=6, column = 1, columnspan=6,padx=2, pady=3)
 DelButton = ttk.Button(win, text="Del", pady=10, padx=50, font="Serif 15", bg="black", fg="white", command=lambda: Delete(1))
 DelButton.grid(row=6, column=0, columnspan=2 ,padx=2, pady=3)
 
-AusgabeText = ""
-Ausgabe= ttk.Label(win, textvariable = AusgabeText, pady=10, padx=120, font="Serif 15", bg="white", fg="black")
+Ausgabe = ttk.Label(win, text = AusgabeText, pady=10, padx=120, font="Serif 12", bg="white", fg="black")
 Ausgabe.grid(row=7, column=0, columnspan=5 ,padx=2, pady=3)
 
 win.mainloop()
