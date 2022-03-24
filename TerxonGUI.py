@@ -10,6 +10,10 @@ AID = 0
 BID = 0
 CID = 0
 DID = 0
+
+#Menü Einstellungen
+LänderEinstellung = "D - Deutschland"
+
 BereichID = 1000
 #1000 = Start
 #999 = 0 Bereich
@@ -89,6 +93,7 @@ def Delete(x):
     global Code
     global XID
     global HakenID
+    global BereichID
     XID = 0
     HakenID = 0
     Code = ""
@@ -101,17 +106,37 @@ def ConfirmEntrance(q):
     global BereichID
     global AusgabeText
     global XID
-    global HakenID
+    global HID
+    global AID
+    global BID
+    global CID
+    global DID
     global internCode
 
     if XID != 0:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         XID = 2
-    elif HakenID != 0:
+    elif HID != 0:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
-        HakenID = 2
+        HID = 2
+    elif AID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        AID = 2
+    elif BID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        BID = 2
+    elif CID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        CID = 2
+    elif DID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        DID = 2
 
     iTxtValue= int(TxtValue)
     CodeLenght = len(TxtValue)
@@ -120,7 +145,7 @@ def ConfirmEntrance(q):
     print(NullFront)
     if iTxtValue == 0 and BereichID == 1000 and  CodeLenght == 1:
         print("0 Bereich: Programmier Passwort eingeben")
-        Ausgabe.config(text=str("Programmier-Passwort eingeben"))
+        AusgabeEins.config(text=str("Programmier-Passwort eingeben"))
         print(AusgabeText)
         Delete(1)
         BereichID = 999
@@ -128,7 +153,7 @@ def ConfirmEntrance(q):
     elif CodeLenght == 4 and BereichID == 999:
         if iTxtValue == 7890:
             print("Passwort richtig")
-            Ausgabe.config(text=str("Passwort richtig"))
+            AusgabeEins.config(text=str("Passwort richtig - Programmiermodus"))
             Delete(1)
             BereichID = 7890
             print("BereichID: ", BereichID)
@@ -142,10 +167,12 @@ def ConfirmEntrance(q):
 def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
+    global LänderEinstellung
 
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
-        Ausgabe.config(text=str("Menüpunkt: 000"))
+        AusgabeEins.config(text=str("Menüpunkt: 000"))
+        AusgabeZwei.config(text=str(LänderEinstellung))
         BereichID = 0
         Delete(1)
     elif iTxtValue >= 1 and iTxtValue <= 16:
@@ -309,37 +336,59 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     global BereichID
     global XID
     global HakenID
+    global LänderEinstellung
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
-            Ausgabe.config(text=str("UK – Großbritannien "))
+            LänderEinstellung = "UK – Großbritannien "
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 1 and XID == 0:
-            Ausgabe.config(text=str("I – Italien"))
+            LänderEinstellung = "I – Italien"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 2 and XID == 0:
-            Ausgabe.config(text=str("EE – Spanien"))
+            LänderEinstellung = "EE – Spanien"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 3 and XID == 0:
-            Ausgabe.config(text=str("P – Portugal"))
+            LänderEinstellung = "P – Portugal"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 4 and XID == 0:
-            Ausgabe.config(text=str("NL – Niederlande"))
+            LänderEinstellung = "NL – Niederlande"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 5 and XID == 0:
-            Ausgabe.config(text=str("FR – Frankreich"))
+            LänderEinstellung = "FR – Frankreich"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 6 and XID == 0:
-            Ausgabe.config(text=str("B – Belgien"))
+            LänderEinstellung = "B – Belgien"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 7 and XID == 0:
-            Ausgabe.config(text=str("D – Deutschland"))
+            LänderEinstellung = "D – Deutschland"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 8 and XID == 0:
-            Ausgabe.config(text=str("CH – Schweiz"))
+            LänderEinstellung = "CH – Schweiz"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 9 and XID == 0:
-            Ausgabe.config(text=str("A – Österreich"))
+            LänderEinstellung = "A – Österreich"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 1 and XID == 2:
-            Ausgabe.config(text=str("IRL – Irland"))
+            LänderEinstellung = "IRL – Irland"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 2 and XID == 2:
-            Ausgabe.config(text=str("OEM1"))
+            LänderEinstellung = "OEM1"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 3 and XID == 2:
-            Ausgabe.config(text=str("OEM2"))
+            LänderEinstellung = "OEM2"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 4 and XID == 2:
-            Ausgabe.config(text=str("FI – Finnland"))
+            LänderEinstellung = "FI – Finnland"
+            AusgabeZwei.config(text=str(LänderEinstellung))
         elif iTxtValue == 5 and XID == 2:
-            Ausgabe.config(text=str("N – Norwegen"))
+            LänderEinstellung = "N – Norwegen"
+            AusgabeZwei.config(text=str(LänderEinstellung))
+        elif iTxtValue == 6 and XID == 2:
+            LänderEinstellung = "DK – Dänemark"
+            AusgabeZwei.config(text=str(LänderEinstellung))
+        elif iTxtValue == 7 and XID == 2:
+            LänderEinstellung = "S – Schweden "
+            AusgabeZwei.config(text=str(LänderEinstellung))
     elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             Ausgabe.config(text=str("NV – Nicht verwendet"))
@@ -372,7 +421,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
 
 win = ttk.Tk()
 win.title('Terxon Simulator')
-win.geometry('380x420')
+win.geometry('380x440')
 
 #row 1
 CodeTxt = ttk.StringVar()
@@ -438,8 +487,11 @@ ConfirmButton.grid(row=6, column = 1, columnspan=6,padx=2, pady=3)
 DelButton = ttk.Button(win, text="Del", pady=10, padx=50, font="Serif 15", bg="black", fg="white", command=lambda: Delete(1))
 DelButton.grid(row=6, column=0, columnspan=2 ,padx=2, pady=3)
 
-Ausgabe = ttk.Label(win, pady=0, padx=0, font="Serif 12", bg="lime green", fg="black")
-Ausgabe.grid(row=7, column=0, columnspan=5 ,padx=2, pady=3)
+AusgabeEins = ttk.Label(win, pady=0, padx=0, font="Serif 12", bg="lime green", fg="black")
+AusgabeEins.grid(row=7, column=0, columnspan=5 ,padx=2, pady=3)
+
+AusgabeZwei = ttk.Label(win, pady=0, padx=0, font="Serif 12", bg="yellow", fg="black")
+AusgabeZwei.grid(row=8, column=0, columnspan=5 ,padx=2, pady=3)
 
 win.mainloop()
 
