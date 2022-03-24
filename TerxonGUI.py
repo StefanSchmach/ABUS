@@ -92,11 +92,8 @@ def addToTxt(x):
 def Delete(x):
     global  TxtValue
     global Code
-    global XID
-    global HID
-    global BereichID
-    XID = 0
-    HakenID = 0
+
+
     Code = ""
     TxtValue = ""
     CodeTxt.set(TxtValue)
@@ -126,6 +123,20 @@ def DeleteAll(x):
     TxtValue = ""
     CodeTxt.set(TxtValue)
     print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
+
+def VarNull(x):
+    global XID
+    global HID
+    global AID
+    global BID
+    global CID
+    global DID
+    AID = 0
+    BID = 0
+    CID = 0
+    DID = 0
+    XID = 0
+    HID = 0
 
 def ConfirmEntrance(q):
     global TxtValue
@@ -165,10 +176,12 @@ def ConfirmEntrance(q):
         DID = 2
 
     iTxtValue= int(TxtValue)
+    print(iTxtValue)
     CodeLenght = len(TxtValue)
     print("def: ConfirmEntrance")
     NullFront = "%03d" % (iTxtValue)
     print(NullFront)
+    NullCodeLenght = len(NullFront)
     if iTxtValue == 0 and BereichID == 1000 and  CodeLenght == 1:
         print("0 Bereich: Programmier Passwort eingeben")
         AusgabeEins.config(text=str("Programmier-Passwort eingeben"))
@@ -183,7 +196,7 @@ def ConfirmEntrance(q):
             Delete(1)
             BereichID = 7890
             print("BereichID: ", BereichID)
-    elif CodeLenght == 3 and BereichID == 7890:
+    elif CodeLenght == 3 and BereichID == 7890 and NullCodeLenght == 3:
         print("Menüpunkt-Code")
         MenüPunkte(iTxtValue)
     elif BereichID < 250:
@@ -194,6 +207,12 @@ def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
     global LänderEinstellung
+    global XID
+    global AID
+    global HID
+    global BID
+    global CID
+    global DID
 
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
@@ -202,8 +221,13 @@ def MenüPunkte(Menüpunkt):
         BereichID = 0
         Delete(1)
     elif Menüpunkt >= 1 and Menüpunkt <= 16:
-        print("Menüpunkt: 001 - 008")
+        print("Menüpunkt: 001 - 016")
         AusgabeEins.config(text=str("Menüpunkt: 001 -016"))
+        AusgabeZwei.config(text=str(ZonenEinstellungen))
+        BereichID = 1
+        Delete(1)
+    elif Menüpunkt >=17 and Menüpunkt <= 32 and XID == 2:
+        AusgabeEins.config(text=str("Menüpunkt: X17 -X32"))
         AusgabeZwei.config(text=str(ZonenEinstellungen))
         BereichID = 1
         Delete(1)
