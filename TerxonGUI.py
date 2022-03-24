@@ -11,8 +11,9 @@ BID = 0
 CID = 0
 DID = 0
 
-#Menü Einstellungen
+#Standard Menü Einstellungen
 LänderEinstellung = "D - Deutschland"
+ZonenEinstellungen = "Zone XY: "
 
 BereichID = 1000
 #1000 = Start
@@ -92,10 +93,35 @@ def Delete(x):
     global  TxtValue
     global Code
     global XID
-    global HakenID
+    global HID
     global BereichID
     XID = 0
     HakenID = 0
+    Code = ""
+    TxtValue = ""
+    CodeTxt.set(TxtValue)
+    print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
+
+def DeleteAll(x):
+    global  TxtValue
+    global Code
+    global XID
+    global HID
+    global AID
+    global BID
+    global CID
+    global DID
+    global BereichID
+    HID = 0
+    XID = 0
+    AID = 0
+    BID = 0
+    CID = 0
+    DID = 0
+    XID = 0
+    BereichID = 1000
+    AusgabeEins.config(text=str(""))
+    AusgabeZwei.config(text=str(""))
     Code = ""
     TxtValue = ""
     CodeTxt.set(TxtValue)
@@ -175,9 +201,10 @@ def MenüPunkte(Menüpunkt):
         AusgabeZwei.config(text=str(LänderEinstellung))
         BereichID = 0
         Delete(1)
-    elif iTxtValue >= 1 and iTxtValue <= 16:
+    elif Menüpunkt >= 1 and Menüpunkt <= 16:
         print("Menüpunkt: 001 - 008")
-        Ausgabe.config(text=str("Menüpunkt: 001 -016"))
+        AusgabeEins.config(text=str("Menüpunkt: 001 -016"))
+        AusgabeZwei.config(text=str(ZonenEinstellungen))
         BereichID = 1
         Delete(1)
     elif Menüpunkt == 20:
@@ -337,6 +364,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     global XID
     global HakenID
     global LänderEinstellung
+    global ZonenEinstellungen
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             LänderEinstellung = "UK – Großbritannien "
@@ -391,33 +419,86 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             AusgabeZwei.config(text=str(LänderEinstellung))
     elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
-            Ausgabe.config(text=str("NV – Nicht verwendet"))
+            ZonenEinstellungen = ZonenEinstellungen + "NV – Nicht verwendet "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 1 and XID == 0:
-            Ausgabe.config(text=str("UF – Überfall"))
+            ZonenEinstellungen = ZonenEinstellungen + "UF – Überfall "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 2 and XID == 0:
-            Ausgabe.config(text=str("FE – Feuer"))
+            ZonenEinstellungen = ZonenEinstellungen + "FE -Feuer "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 3 and XID == 0:
-            Ausgabe.config(text=str("SO – Sofort"))
+            ZonenEinstellungen = ZonenEinstellungen + "SO - Sofort "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 4 and XID == 0:
-            Ausgabe.config(text=str("24 – 24 Stunden"))
+            ZonenEinstellungen = ZonenEinstellungen + "24 -24 Stunden "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 5 and XID == 0:
-            Ausgabe.config(text=str("EA – Ein/Ausgang"))
+            ZonenEinstellungen = ZonenEinstellungen + "EA -Ein/Ausgang "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 6 and XID == 0:
-            Ausgabe.config(text=str("EF – Eingang folgend"))
+            ZonenEinstellungen = ZonenEinstellungen + "EF -Eingang folgend "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 7 and XID == 0:
-            Ausgabe.config(text=str("ES – Erschütterungssensor"))
+            ZonenEinstellungen = ZonenEinstellungen + "ES - Erschütterungssensor "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 8 and XID == 0:
-            Ausgabe.config(text=str("TK – Technik"))
+            ZonenEinstellungen = ZonenEinstellungen + "TK - Technik "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 9 and XID == 0:
-            Ausgabe.config(text=str("SK – Schlüsselkasten"))
+            ZonenEinstellungen = ZonenEinstellungen + "SK - Schlüsselkasten "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 10 and XID == 0:
-            Ausgabe.config(text=str("BM – Brandmelder"))
+            ZonenEinstellungen = ZonenEinstellungen + "BM - Brandmelder "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 11 and XID == 0:
-            Ausgabe.config(text=str("SS – Schlüsselschalter"))
+            ZonenEinstellungen = ZonenEinstellungen + "SS - Schlüssekschalter "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
         elif iTxtValue == 12 and XID == 0:
-            Ausgabe.config(text=str("BS – Blockschloss"))
-
-    Delete(1)
+            ZonenEinstellungen = ZonenEinstellungen + "BS - Blockschloss "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 13 and XID == 0:
+            ZonenEinstellungen = ZonenEinstellungen + "AM - Anti Mask "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 14 and XID == 0:
+            ZonenEinstellungen = ZonenEinstellungen + "FB - Forbikobler Zone "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 1 and XID == 2:
+            ZonenEinstellungen = ZonenEinstellungen + "C - Türgong "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 2 and XID == 2:
+            ZonenEinstellungen = ZonenEinstellungen + "S - Melderset "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 3 and XID == 2:
+            ZonenEinstellungen = ZonenEinstellungen + "D - Doppelauslösung "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 4 and XID == 2:
+            ZonenEinstellungen = ZonenEinstellungen + "O - Zonensperren möglich "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+        elif iTxtValue == 7 and XID == 2:
+            ZonenEinstellungen = ZonenEinstellungen + "1....6 Empfindlichkeit "
+            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            Delete(1)
+    #DeleteAll(1)
 
 win = ttk.Tk()
 win.title('Terxon Simulator')
