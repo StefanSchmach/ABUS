@@ -2,20 +2,96 @@ import tkinter as ttk
 
 TxtValue = ""
 AusgabeText = ""
+internCode = ""
+#ID
+HID = 0
+XID = 0
+AID = 0
+BID = 0
+CID = 0
+DID = 0
 BereichID = 1000
 #1000 = Start
 #999 = 0 Bereich
 #7890 = Programmier Bereich
 # x>250 = Menüpunkte Programmierbereich
 
+def HakenaddToTxt(x):
+    global TxtValue
+    global HID
+    global internCode
+    HID = 1
+    internCode = internCode + str(x) + "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
+def AaddToTxt(x):
+    global TxtValue
+    global AID
+    global internCode
+    AID = 1
+    internCode = internCode + str(x) + "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
+def BaddToTxt(x):
+    global TxtValue
+    global BID
+    global internCode
+    BID = 1
+    internCode = internCode + str(x) + "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
+def CaddToTxt(x):
+    global TxtValue
+    global CID
+    global internCode
+    CID = 1
+    internCode = internCode + str(x) + "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
+def DaddToTxt(x):
+    global TxtValue
+    global DID
+    global internCode
+    DID = 1
+    internCode = internCode + str(x) + "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
+def XaddToTxt(x):
+    global TxtValue
+    global XID
+    global internCode
+    XID = 1
+    internCode = internCode + str(x) +  "#"
+    TxtValue = TxtValue + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =", TxtValue)
+
 def addToTxt(x):
     global TxtValue
+    global internCode
     TxtValue = TxtValue + str(x)
+    internCode = internCode + str(x)
     CodeTxt.set(TxtValue)
     print("def addToTxt:(", x, ") =",  TxtValue)
 
 def Delete(x):
     global  TxtValue
+    global Code
+    global XID
+    global HakenID
+    XID = 0
+    HakenID = 0
+    Code = ""
     TxtValue = ""
     CodeTxt.set(TxtValue)
     print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
@@ -24,7 +100,19 @@ def ConfirmEntrance(q):
     global TxtValue
     global BereichID
     global AusgabeText
-    dataX
+    global XID
+    global HakenID
+    global internCode
+
+    if XID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        XID = 2
+    elif HakenID != 0:
+        ohneX = internCode.split("#")
+        TxtValue = ohneX[1]
+        HakenID = 2
+
     iTxtValue= int(TxtValue)
     CodeLenght = len(TxtValue)
     print("def: ConfirmEntrance")
@@ -60,9 +148,9 @@ def MenüPunkte(Menüpunkt):
         Ausgabe.config(text=str("Menüpunkt: 000"))
         BereichID = 0
         Delete(1)
-    elif iTxtValue >= 1 and iTxtValue <= 8:
+    elif iTxtValue >= 1 and iTxtValue <= 16:
         print("Menüpunkt: 001 - 008")
-        Ausgabe.config(text=str("Menüpunkt: 001 -008"))
+        Ausgabe.config(text=str("Menüpunkt: 001 -016"))
         BereichID = 1
         Delete(1)
     elif Menüpunkt == 20:
@@ -219,29 +307,67 @@ def MenüPunkte(Menüpunkt):
 def EinstellungsPunkte(iTxtValue, CodeLenght):
     global TxtValue
     global BereichID
-    if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2 :
-        if iTxtValue == 0:
+    global XID
+    global HakenID
+    if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
+        if iTxtValue == 0 and XID == 0:
             Ausgabe.config(text=str("UK – Großbritannien "))
-        elif iTxtValue == 1:
+        elif iTxtValue == 1 and XID == 0:
             Ausgabe.config(text=str("I – Italien"))
-        elif iTxtValue == 2:
+        elif iTxtValue == 2 and XID == 0:
             Ausgabe.config(text=str("EE – Spanien"))
-        elif iTxtValue == 3:
+        elif iTxtValue == 3 and XID == 0:
             Ausgabe.config(text=str("P – Portugal"))
-        elif iTxtValue == 4:
+        elif iTxtValue == 4 and XID == 0:
             Ausgabe.config(text=str("NL – Niederlande"))
-        elif iTxtValue == 5:
+        elif iTxtValue == 5 and XID == 0:
             Ausgabe.config(text=str("FR – Frankreich"))
-        elif iTxtValue == 6:
+        elif iTxtValue == 6 and XID == 0:
             Ausgabe.config(text=str("B – Belgien"))
-        elif iTxtValue == 7:
+        elif iTxtValue == 7 and XID == 0:
             Ausgabe.config(text=str("D – Deutschland"))
-        elif iTxtValue == 8:
+        elif iTxtValue == 8 and XID == 0:
             Ausgabe.config(text=str("CH – Schweiz"))
-        elif iTxtValue == 9:
+        elif iTxtValue == 9 and XID == 0:
             Ausgabe.config(text=str("A – Österreich"))
-        elif TxtValue in ['X1']:
+        elif iTxtValue == 1 and XID == 2:
             Ausgabe.config(text=str("IRL – Irland"))
+        elif iTxtValue == 2 and XID == 2:
+            Ausgabe.config(text=str("OEM1"))
+        elif iTxtValue == 3 and XID == 2:
+            Ausgabe.config(text=str("OEM2"))
+        elif iTxtValue == 4 and XID == 2:
+            Ausgabe.config(text=str("FI – Finnland"))
+        elif iTxtValue == 5 and XID == 2:
+            Ausgabe.config(text=str("N – Norwegen"))
+    elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
+        if iTxtValue == 0 and XID == 0:
+            Ausgabe.config(text=str("NV – Nicht verwendet"))
+        elif iTxtValue == 1 and XID == 0:
+            Ausgabe.config(text=str("UF – Überfall"))
+        elif iTxtValue == 2 and XID == 0:
+            Ausgabe.config(text=str("FE – Feuer"))
+        elif iTxtValue == 3 and XID == 0:
+            Ausgabe.config(text=str("SO – Sofort"))
+        elif iTxtValue == 4 and XID == 0:
+            Ausgabe.config(text=str("24 – 24 Stunden"))
+        elif iTxtValue == 5 and XID == 0:
+            Ausgabe.config(text=str("EA – Ein/Ausgang"))
+        elif iTxtValue == 6 and XID == 0:
+            Ausgabe.config(text=str("EF – Eingang folgend"))
+        elif iTxtValue == 7 and XID == 0:
+            Ausgabe.config(text=str("ES – Erschütterungssensor"))
+        elif iTxtValue == 8 and XID == 0:
+            Ausgabe.config(text=str("TK – Technik"))
+        elif iTxtValue == 9 and XID == 0:
+            Ausgabe.config(text=str("SK – Schlüsselkasten"))
+        elif iTxtValue == 10 and XID == 0:
+            Ausgabe.config(text=str("BM – Brandmelder"))
+        elif iTxtValue == 11 and XID == 0:
+            Ausgabe.config(text=str("SS – Schlüsselschalter"))
+        elif iTxtValue == 12 and XID == 0:
+            Ausgabe.config(text=str("BS – Blockschloss"))
+
     Delete(1)
 
 win = ttk.Tk()
@@ -254,16 +380,16 @@ datafield = ttk.Entry(win, textvariable = CodeTxt, font="Serif 15", bg="grey", f
 datafield.grid(row=0, columnspan=4, ipadx=80, ipady=15)
 
 #row 2
-AButton = ttk.Button(win, text="A", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("A"))
+AButton = ttk.Button(win, text="A", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: AaddToTxt("A"))
 AButton.grid(row=2, column=0,padx=2, pady=3)
 
-BButton = ttk.Button(win, text="B", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("B"))
+BButton = ttk.Button(win, text="B", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: BaddToTxt("B"))
 BButton.grid(row=2, column=1,padx=2, pady=3)
 
-CButton = ttk.Button(win, text="C", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("C"))
+CButton = ttk.Button(win, text="C", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: CaddToTxt("C"))
 CButton.grid(row=2, column=2,padx=2, pady=3)
 
-DButton = ttk.Button(win, text="D", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("D"))
+DButton = ttk.Button(win, text="D", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: DaddToTxt("D"))
 DButton.grid(row=2, column=3,padx=2, pady=3)
 
 #row 3
@@ -276,7 +402,7 @@ twoButton.grid(row=3, column=1,padx=2, pady=3)
 twoButton = ttk.Button(win, text="3", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("3"))
 twoButton.grid(row=3, column=2,padx=2, pady=3)
 
-hakenButton = ttk.Button(win, text="√", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("√"))
+hakenButton = ttk.Button(win, text="√", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: HakenaddToTxt("√"))
 hakenButton.grid(row=3, column=3,padx=2, pady=3)
 
 #row 4
@@ -289,7 +415,7 @@ fiveButton.grid(row=4, column=1,padx=2, pady=3)
 fiveButton = ttk.Button(win, text="6", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("6"))
 fiveButton.grid(row=4, column=2,padx=2, pady=3)
 
-kreuzButton = ttk.Button(win, text="X", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("X"))
+kreuzButton = ttk.Button(win, text="X", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: XaddToTxt("X"))
 kreuzButton.grid(row=4, column=3,padx=2, pady=3)
 
 #row 5
