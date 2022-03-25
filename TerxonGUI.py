@@ -21,6 +21,11 @@ ZonenAbschlussNummer = "Nicht Angegeben"            #Einstellung 021
 InterVolumeNummer = "5"                             #Einstellung 022
 FernReset = "0"                                     #Einstellung 023
 Kundenname = "Max Mustermann"                       #Einstellung 024
+InternerAlarm = 1                                   #Einstellung 025
+AlarmbeiAktivierung = 0                             #Einstellung 027
+StatusAnzeigeAusblenden = 0                         #Einstellung 028
+ExternAlarmVerzögerung = 0                          #Einstellung 029
+Überfallalarm = 0                                   #Einstellung 030
 
 
 BereichID = 1000
@@ -226,6 +231,11 @@ def MenüPunkte(Menüpunkt):
     global InterVolumeNummer
     global FernReset
     global Kundenname
+    global InternerAlarm
+    global AlarmbeiAktivierung
+    global StatusAnzeigeAusblenden
+    global ExternAlarmVerzögerung
+    global Überfallalarm
     global XID
     global AID
     global HID
@@ -289,27 +299,44 @@ def MenüPunkte(Menüpunkt):
         Delete(1)
     elif Menüpunkt == 25:
         print("Menüpunkt: 025")
-        AusgabeEins.config(text=str("Menüpunkt: 025"))
+        Text = str(InternerAlarm)
+        AusgabeEins.config(text=str("Menüpunkt: 025 | Interner Alarm"))
+        if InternerAlarm == 1:
+            AusgabeZwei.config(text=str(Text + " Bis deaktivieren"))
+        elif InternerAlarm == 0:
+            AusgabeZwei.config(text=str(Text + " Lokal Alarm folgend"))
         BereichID = 25
-        Delete(1)
-    elif Menüpunkt == 26:
-        print("Menüpunkt: 026")  #
-        AusgabeEins.config(text=str("Menüpunkt: 026"))
-        BereichID = 26
         Delete(1)
     elif Menüpunkt == 27:
         print("Menüpunkt: 027")
-        AusgabeEins.config(text=str("Menüpunkt: 027"))
+        AusgabeEins.config(text=str("Menüpunkt: 027 | Alarm bei fehlg. Aktivierung"))
+        Text = str(AlarmbeiAktivierung)
+        if AlarmbeiAktivierung == 0:
+            AusgabeZwei.config(text=str(Text + " - Interner Alarm"))
+        elif AlarmbeiAktivierung == 1:
+            AusgabeZwei.config(text=str(Text + " - Lokaler Alarm"))
         BereichID = 27
         Delete(1)
     elif Menüpunkt == 28:
         print("Menüpunkt: 028")
-        AusgabeEins.config(text=str("Menüpunkt: 028"))
+        AusgabeEins.config(text=str("Menüpunkt: 028 | Status Anzeige ausblenden"))
+        Text = str(StatusAnzeigeAusblenden)
+        if StatusAnzeigeAusblenden == 0:
+            AusgabeZwei.config(text=str(Text + " - Nie ausblenden"))
+        elif StatusAnzeigeAusblenden == 1:
+            AusgabeZwei.config(text=str(Text + " - Nach180 Sek ausblenden"))
+        elif StatusAnzeigeAusblenden == 2:
+            AusgabeZwei.config(text=str(Text + " - 30Sek nach Code ausblenden"))
         BereichID = 28
         Delete(1)
     elif Menüpunkt == 29:
         print("Menüpunkt: 029")
-        AusgabeEins.config(text=str("Menüpunkt: 029"))
+        AusgabeEins.config(text=str("Menüpunkt: 029 | Extern Alarm Verzögern"))
+        Text = str(ExternAlarmVerzögerung)
+        if ExternAlarmVerzögerung == 0:
+            AusgabeZwei.config(text=str(Text + " - Aus"))
+        if ExternAlarmVerzögerung == 1:
+            AusgabeZwei.config(text=str(Text + " - An"))
         BereichID = 29
         Delete(1)
     elif Menüpunkt == 30:
@@ -427,10 +454,8 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     global Programmiercode
     global ZonenAbschlussNummer
     global InterVolumeNummer
-    if BereichID == 1000:
-        ModusName = "Home"
-    elif BereichID == 7890:
-        ModusName = "Programmiermodus"
+    global StatusAnzeigeAusblenden
+    global Überfallalarm
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             LänderEinstellung = "UK – Großbritannien "
@@ -617,6 +642,57 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     elif BereichID == 24 and XID == 2:
         BereichID = 7890
         AusgabeEins.config(text=str("Programmiermodus"))
+    elif BereichID == 25:
+        if iTxtValue == 1:
+            InternerAlarm = 1
+            Text = str(InternerAlarm)
+            AusgabeZwei.config(text=str(Text + " Lokal Alarm folgend"))
+        elif iTxtValue == 0:
+            InternerAlarm = 0
+            Text = str(InternerAlarm)
+            AusgabeZwei.config(text=str(Text + " Bis deaktiviert"))
+        Delete(1)
+    elif BereichID == 27:
+        if iTxtValue == 0:
+            AlarmbeiAktivierung = 0
+            Text = str(AlarmbeiAktivierung)
+            AusgabeZwei.config(text=str(Text + " Intern Alarm"))
+        elif iTxtValue == 1:
+            AlarmbeiAktivierung = 0
+            Text = str(AlarmbeiAktivierung)
+            AusgabeZwei.config(text=str(Text + " Lokaler Alarm"))
+    elif BereichID == 28:
+        if iTxtValue == 0:
+            StatusAnzeigeAusblenden = 0
+            Text = str(StatusAnzeigeAusblenden)
+            AusgabeZwei.config(text=str(Text + " Nie ausblenden"))
+        elif iTxtValue == 1:
+            StatusAnzeigeAusblenden = 1
+            Text = str(StatusAnzeigeAusblenden)
+            AusgabeZwei.config(text=str(Text + " Nach180 Sek ausblenden"))
+        elif iTxtValue == 2:
+            StatusAnzeigeAusblenden = 2
+            Text = str(StatusAnzeigeAusblenden)
+            AusgabeZwei.config(text=str(Text + " 30Sek nach Code ausblenden"))
+    elif BereichID == 29:
+        if iTxtValue == 0:
+            ExternAlarmVerzögerung = 0
+            Text = str(ExternAlarmVerzögerung)
+            AusgabeZwei.config(text=str(Text + " - Aus"))
+        elif iTxtValue == 1:
+            ExternAlarmVerzögerung = 1
+            Text = str(ExternAlarmVerzögerung)
+            AusgabeZwei.config(text=str(Text + " - An"))
+  #  elif BereichID == 30:
+
+
+    Delete(1)
+
+
+
+
+
+
 
 
 
