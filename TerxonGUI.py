@@ -26,6 +26,7 @@ AlarmbeiAktivierung = 0                             #Einstellung 027
 StatusAnzeigeAusblenden = 0                         #Einstellung 028
 ExternAlarmVerzögerung = 0                          #Einstellung 029
 Überfallalarm = 0                                   #Einstellung 030
+ZonenSabotageReset = 0                              #Einstellung 031
 
 
 BereichID = 1000
@@ -236,6 +237,7 @@ def MenüPunkte(Menüpunkt):
     global StatusAnzeigeAusblenden
     global ExternAlarmVerzögerung
     global Überfallalarm
+    global ZonenSabotageReset
     global XID
     global AID
     global HID
@@ -341,12 +343,22 @@ def MenüPunkte(Menüpunkt):
         Delete(1)
     elif Menüpunkt == 30:
         print("Menüpunkt: 030")
-        AusgabeEins.config(text=str("Menüpunkt: 030"))
+        AusgabeEins.config(text=str("Menüpunkt: 030 | Überfallalarm"))
+        Text = str(Überfallalarm)
+        if Überfallalarm == 0:
+            AusgabeZwei.config(text=str( Text + " - Laut"))
+        elif Überfallalarm == 1:
+            AusgabeZwei.config(text=str( Text + " - Still"))
         BereichID = 30
         Delete(1)
     elif Menüpunkt == 31:
         print("Menüpunkt: 031")
-        AusgabeEins.config(text=str("Menüpunkt: 031"))
+        Text = str(ZonenSabotageReset)
+        AusgabeEins.config(text=str("Menüpunkt: 031 | Zonensabotage Reset"))
+        if ZonenSabotageReset == 0:
+            AusgabeZwei.config(text=str(Text + " - Keine Programmcode notw."))
+        elif ZonenSabotageReset == 1:
+            AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
         BereichID = 31
         Delete(1)
     elif Menüpunkt == 32:
@@ -508,10 +520,8 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
         elif iTxtValue == 7 and XID == 2:
             LänderEinstellung = "S – Schweden "
             AusgabeZwei.config(text=str(LänderEinstellung))
-        DeleteAll(1)
+        Delete(1)
         BereichID = 7890
-        ModusName = "Programmiermodus"
-        AusgabeEins.config(text=str(ModusName))
     elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "NV – Nicht verwendet "
@@ -683,7 +693,25 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             ExternAlarmVerzögerung = 1
             Text = str(ExternAlarmVerzögerung)
             AusgabeZwei.config(text=str(Text + " - An"))
-  #  elif BereichID == 30:
+    elif BereichID == 30:
+        if iTxtValue == 0:
+            Überfallalarm = 0
+            Text = str(Überfallalarm)
+            AusgabeZwei.config(text=str(Text + " - Laut"))
+        elif iTxtValue == 1:
+            Überfallalarm = 1
+            Text = str(Überfallalarm)
+            AusgabeZwei.config(text=str(Text + " - Still"))
+    elif BereichID == 31:
+        if iTxtValue == 0:
+            ZonenSabotageReset = 0
+            Text = str(ZonenSabotageReset)
+            AusgabeZwei.config(text=str(Text + " - Kein Program.code notw."))
+        elif iTxtValue == 1:
+            ZonenSabotageReset = 1
+            Text = str(ZonenSabotageReset)
+            AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
+
 
 
     Delete(1)
