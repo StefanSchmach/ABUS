@@ -150,16 +150,12 @@ def VarNull(x):
     global BID
     global CID
     global DID
-    global BereichID
     AID = 0
     BID = 0
     CID = 0
     DID = 0
     XID = 0
     HID = 0
-    BereichID = 1000
-    AusgabeEins.config(text=str(""))
-    AusgabeZwei.config(text=str(""))
 
 def ConfirmEntrance(q):
     global TxtValue
@@ -291,22 +287,26 @@ def MenüPunkte(Menüpunkt):
         BereichID = 1
         Delete(1)
     elif Menüpunkt == 20:
+        text = str(Programmiercode)
         print("Menüpunkt: 020")
         AusgabeEins.config(text=str("Menüpunkt: 020 | Programmiercode"))
-        AusgabeZwei.config(text=str(Programmiercode))
+        AusgabeZwei.config(text=str("Programmiercode: "+ text))
         BereichID = 20
         Delete(1)
     elif Menüpunkt == 21:
         print("Menüpunkt: 021")
         AusgabeEins.config(text=str("Menüpunkt: 021 | Zonenabschluss"))
-        i
-        AusgabeZwei.config(text=str(ZonenAbschlussNummer))
+        text = str(ZonenAbschlussNummer)
+        if ZonenAbschlussNummer == 0:
+            AusgabeZwei.config(text=str(text + " - Kein Widerstand NC"))
+        elif ZonenAbschlussNummer == 1:
+            AusgabeZwei.config(text=str(text + " - Zwei Widerstände DEOL"))
         BereichID = 21
         Delete(1)
     elif Menüpunkt == 22:
         print("Menüpunkt: 022")
         AusgabeEins.config(text=str("Menüpunkt: 022 | Intern Volume"))
-        AusgabeZwei.config(text=str("Lautstärke = " + InterVolumeNummer))
+        AusgabeZwei.config(text=str("Volumen ist: " + InterVolumeNummer))
         BereichID = 22
         Delete(1)
     elif Menüpunkt == 23:
@@ -494,6 +494,7 @@ def MenüPunkte(Menüpunkt):
         Delete(1)
     Delete(1)
 
+
 def EinstellungsPunkte(iTxtValue, CodeLenght):
     global TxtValue
     global CodeTxt
@@ -512,6 +513,9 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     global Überfallalarm
     global BedienteileundPartitionen
     global SystemReset
+    global AlarmbeiAktivierung
+    global  ExternAlarmVerzögerung
+    global ZonenSabotageReset
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             LänderEinstellung = "UK – Großbritannien "
@@ -661,19 +665,19 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             Delete(1)
     elif BereichID == 20:
         Programmiercode = iTxtValue
-        sProgrammiercode = str(Programmiercode)
+        Text = str(Programmiercode)
         print(Programmiercode)
-        AusgabeZwei.config(text=str(sProgrammiercode))
+        AusgabeZwei.config(text=str("Programmiercode gesetzt auf " + Text))
         Delete(1)
     elif BereichID == 21:
         if iTxtValue == 0:
             ZonenAbschlussNummer = 0
-            sZonenAbschlussNummer = ZonenAbschlussNummer + " = Kein Wiederstand NC"
-            AusgabeZwei.config(text=str(sZonenAbschlussNummer))
+            sZonenAbschlussNummer = str(ZonenAbschlussNummer)
+            AusgabeZwei.config(text=str(sZonenAbschlussNummer + " = Kein Wiederstand NC"))
         elif iTxtValue == 1:
             ZonenAbschlussNummer = 1
-            sZonenAbschlussNummer = ZonenAbschlussNummer + " = Zwei Wiederstände DEOL"
-            AusgabeZwei.config(text=str(sZonenAbschlussNummer))
+            sZonenAbschlussNummer = str(ZonenAbschlussNummer)
+            AusgabeZwei.config(text=str(sZonenAbschlussNummer + " = Zwei Wiederstände DEOL"))
     elif BereichID == 22:
         InterVolumenNummer = iTxtValue
         SInternVolumenNummer = str(InterVolumenNummer)
@@ -692,10 +696,10 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
         elif iTxtValue == 1:
             FernReset = iTxtValue
             Text = str(FernReset)
-            AusgabeZwei.config(text=str(Text + "AN"))
+            AusgabeZwei.config(text=str(Text + " AN"))
     elif BereichID == 24 and XID == 2:
         BereichID = 7890
-        AusgabeEins.config(text=str("Programmiermodus"))
+        AusgabeEins.config(text=str("Programmiermodus des Namens"))
     elif BereichID == 25:
         if iTxtValue == 1:
             InternerAlarm = 1
@@ -710,24 +714,24 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
         if iTxtValue == 0:
             AlarmbeiAktivierung = 0
             Text = str(AlarmbeiAktivierung)
-            AusgabeZwei.config(text=str(Text + " Intern Alarm"))
+            AusgabeZwei.config(text=str(Text + " - Intern Alarm"))
         elif iTxtValue == 1:
-            AlarmbeiAktivierung = 0
+            AlarmbeiAktivierung = 1
             Text = str(AlarmbeiAktivierung)
-            AusgabeZwei.config(text=str(Text + " Lokaler Alarm"))
+            AusgabeZwei.config(text=str(Text + " - Lokaler Alarm"))
     elif BereichID == 28:
         if iTxtValue == 0:
             StatusAnzeigeAusblenden = 0
             Text = str(StatusAnzeigeAusblenden)
-            AusgabeZwei.config(text=str(Text + " Nie ausblenden"))
+            AusgabeZwei.config(text=str(Text + " - Nie ausblenden"))
         elif iTxtValue == 1:
             StatusAnzeigeAusblenden = 1
             Text = str(StatusAnzeigeAusblenden)
-            AusgabeZwei.config(text=str(Text + " Nach 180 Sek ausblenden"))
+            AusgabeZwei.config(text=str(Text + " - Nach 180 Sek ausblenden"))
         elif iTxtValue == 2:
             StatusAnzeigeAusblenden = 2
             Text = str(StatusAnzeigeAusblenden)
-            AusgabeZwei.config(text=str(Text + " 30Sek nach Code ausblenden"))
+            AusgabeZwei.config(text=str(Text + " - 30Sek nach Code ausblenden"))
     elif BereichID == 29:
         if iTxtValue == 0:
             ExternAlarmVerzögerung = 0
@@ -791,8 +795,9 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             Text = str(SystemReset)
             AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
     Delete(1)
-
-
+    BereichID = 7890
+    AusgabeEins.config(text=str("Programmiermodus"))
+    VarNull(1)
 
 win = ttk.Tk()
 win.title('Terxon Simulator')
