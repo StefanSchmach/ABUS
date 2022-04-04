@@ -14,10 +14,11 @@ DID = 0
 #Standard Menü Einstellungen
 LänderEinstellung = "D - Deutschland"               #Einstellung 000
 ZonenEinstellungen = "Zone "                        #Einstellung 001
+ZonenEinstellungenFunk = "Funk-Zone "               #Einstellung Funk 001
 ZonenNummer = ""                                    #Einstellung 001
 sZonenNummer = ""                                   #Einstellung 001
 Programmiercode = "1111"                            #Einstellung 020
-ZonenAbschlussNummer = "Nicht Angegeben"            #Einstellung 021
+ZonenAbschlussNummer = 0                            #Einstellung 021
 InterVolumeNummer = "5"                             #Einstellung 022
 FernReset = "0"                                     #Einstellung 023
 Kundenname = "Max Mustermann"                       #Einstellung 024
@@ -27,6 +28,10 @@ StatusAnzeigeAusblenden = 0                         #Einstellung 028
 ExternAlarmVerzögerung = 0                          #Einstellung 029
 Überfallalarm = 0                                   #Einstellung 030
 ZonenSabotageReset = 0                              #Einstellung 031
+BedienteileundPartitionen = 1                       #Einstellung 032
+SystemReset = 0                                     #Einstellung 033
+ÜberfallReset = 0                                   #Einstellung 034
+
 
 
 BereichID = 1000
@@ -91,10 +96,10 @@ def XaddToTxt(x):
     global TxtValue
     global XID
     global internCode
-    XID = 1
     internCode = internCode + str(x) +  "#"
     TxtValue = TxtValue + str(x)
     CodeTxt.set(TxtValue)
+    XID = 1
     print("def addToTxt:(", x, ") =", TxtValue)
 
 def addToTxt(x):
@@ -108,6 +113,8 @@ def addToTxt(x):
 def Delete(x):
     global  TxtValue
     global Code
+    global internCode
+    internCode = ""
     Code = ""
     TxtValue = ""
     CodeTxt.set(TxtValue)
@@ -171,27 +178,39 @@ def ConfirmEntrance(q):
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         XID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
     elif HID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         HID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
     elif AID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         AID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
     elif BID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         BID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
         print(TxtValue)
     elif CID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         CID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
     elif DID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
         DID = 2
+        lTxtValue = len(TxtValue)
+        if lTxtValue == 0: TxtValue = "0"
 
     iTxtValue= int(TxtValue)
     CodeLenght = len(TxtValue)
@@ -214,12 +233,14 @@ def ConfirmEntrance(q):
             Delete(1)
             BereichID = 7890
             print("BereichID: ", BereichID)
-    elif CodeLenght == 3 and BereichID == 7890 and NullCodeLenght == 3:
+    elif BereichID == 7890:
         print("Menüpunkt-Code")
         MenüPunkte(iTxtValue)
     elif BereichID < 250:
         print("<250")
         EinstellungsPunkte(iTxtValue, CodeLenght)
+    if TxtValue == "" and XID == 2 or AID == 2 or BID == 2 or CID == 2 or DID == 2:
+        print("XABCD")
 
 def MenüPunkte(Menüpunkt):
     global TxtValue
@@ -238,6 +259,9 @@ def MenüPunkte(Menüpunkt):
     global ExternAlarmVerzögerung
     global Überfallalarm
     global ZonenSabotageReset
+    global BedienteileundPartitionen
+    global SystemReset
+    global ÜberfallReset
     global XID
     global AID
     global HID
@@ -275,13 +299,14 @@ def MenüPunkte(Menüpunkt):
     elif Menüpunkt == 21:
         print("Menüpunkt: 021")
         AusgabeEins.config(text=str("Menüpunkt: 021 | Zonenabschluss"))
+        i
         AusgabeZwei.config(text=str(ZonenAbschlussNummer))
         BereichID = 21
         Delete(1)
     elif Menüpunkt == 22:
         print("Menüpunkt: 022")
         AusgabeEins.config(text=str("Menüpunkt: 022 | Intern Volume"))
-        AusgabeZwei.config(text=str(InterVolumeNummer))
+        AusgabeZwei.config(text=str("Lautstärke = " + InterVolumeNummer))
         BereichID = 22
         Delete(1)
     elif Menüpunkt == 23:
@@ -360,22 +385,38 @@ def MenüPunkte(Menüpunkt):
         elif ZonenSabotageReset == 1:
             AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
         BereichID = 31
-        Delete(1)
     elif Menüpunkt == 32:
         print("Menüpunkt: 032")
-        AusgabeEins.config(text=str("Menüpunkt: 032"))
+        Text = str(BedienteileundPartitionen)
+        AusgabeEins.config(text=str("Menüpunkt: 032 | Bedienteile u. Partitionen"))
+        if BedienteileundPartitionen == 1:
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+        elif BedienteileundPartitionen == 2:
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+        elif BedienteileundPartitionen == 3:
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+        elif BedienteileundPartitionen == 4:
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
         BereichID = 32
         Delete(1)
     elif Menüpunkt == 33:
         print("Menüpunkt: 033")
-        AusgabeEins.config(text=str("Menüpunkt: 033"))
+        Text = str(SystemReset)
+        AusgabeEins.config(text=str("Menüpunkt: 033 | System Reset"))
+        if SystemReset == 0:
+            AusgabeZwei.config(text=str(Text + " - Keine Programmcode notw."))
+        elif SystemReset == 1:
+            AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
         BereichID = 33
-        Delete(1)
     elif Menüpunkt == 34:
         print("Menüpunkt: 034")
-        AusgabeEins.config(text=str("Menüpunkt: 034"))
+        Text = str(SystemReset)
+        AusgabeEins.config(text=str("Menüpunkt: 034 | Überfall Reset"))
+        if SystemReset == 0:
+            AusgabeZwei.config(text=str(Text + " - Benutzer Reset"))
+        elif SystemReset == 1:
+            AusgabeZwei.config(text=str(Text + " - Programmier Reset"))
         BereichID = 34
-        Delete(1)
     elif Menüpunkt == 35:
         print("Menüpunkt: 035")
         AusgabeEins.config(text=str("Menüpunkt: 035"))
@@ -451,6 +492,7 @@ def MenüPunkte(Menüpunkt):
         AusgabeEins.config(text=str("Menüpunkt: 050"))
         BereichID = 50
         Delete(1)
+    Delete(1)
 
 def EinstellungsPunkte(iTxtValue, CodeLenght):
     global TxtValue
@@ -468,6 +510,8 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
     global InterVolumeNummer
     global StatusAnzeigeAusblenden
     global Überfallalarm
+    global BedienteileundPartitionen
+    global SystemReset
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
             LänderEinstellung = "UK – Großbritannien "
@@ -523,7 +567,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
         Delete(1)
         BereichID = 7890
     elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
-        if iTxtValue == 0 and XID == 0:
+        if iTxtValue == 0 and XID == 0 and BID == 0 and CID == 0 and DID == 0:
             ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "NV – Nicht verwendet "
             AusgabeZwei.config(text=str(ZonenEinstellungen))
             Delete(1)
@@ -604,15 +648,15 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             AusgabeZwei.config(text=str(ZonenEinstellungen))
             Delete(1)
         elif BID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht Bereich B "
+            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich B "
             AusgabeZwei.config(text=str(ZonenEinstellungen))
             Delete(1)
         elif CID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht Bereich C "
+            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich C "
             AusgabeZwei.config(text=str(ZonenEinstellungen))
             Delete(1)
         elif DID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht Bereich D "
+            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich D "
             AusgabeZwei.config(text=str(ZonenEinstellungen))
             Delete(1)
     elif BereichID == 20:
@@ -679,7 +723,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
         elif iTxtValue == 1:
             StatusAnzeigeAusblenden = 1
             Text = str(StatusAnzeigeAusblenden)
-            AusgabeZwei.config(text=str(Text + " Nach180 Sek ausblenden"))
+            AusgabeZwei.config(text=str(Text + " Nach 180 Sek ausblenden"))
         elif iTxtValue == 2:
             StatusAnzeigeAusblenden = 2
             Text = str(StatusAnzeigeAusblenden)
@@ -711,10 +755,44 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             ZonenSabotageReset = 1
             Text = str(ZonenSabotageReset)
             AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
-
-
-
+    elif BereichID == 32:
+        if AID == 2:
+            BedienteileundPartitionen = 1
+            Text = "A"
+            AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition A"))
+        elif BID == 2:
+            BedienteileundPartitionen = 2
+            Text = "B"
+            AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition B"))
+        elif CID == 2:
+            BedienteileundPartitionen = 3
+            Text = "C"
+            AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition C"))
+        elif DID == 2:
+            BedienteileundPartitionen = 4
+            Text = "D"
+            AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition D"))
+    elif BereichID == 33:
+        if iTxtValue == 0:
+            SystemReset = 0
+            Text = str(SystemReset)
+            AusgabeZwei.config(text=str(Text + " - Kein Program.code notw. "))
+        elif iTxtValue == 1:
+            SystemReset = 1
+            Text = str(SystemReset)
+            AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
+    elif BereichID == 34:
+        if iTxtValue == 0:
+            SystemReset = 0
+            Text = str(SystemReset)
+            AusgabeZwei.config(text=str(Text + " - Kein Program.code notw. "))
+        elif iTxtValue == 1:
+            SystemReset = 1
+            Text = str(SystemReset)
+            AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
     Delete(1)
+
+
 
 win = ttk.Tk()
 win.title('Terxon Simulator')
@@ -748,7 +826,7 @@ twoButton.grid(row=3, column=1,padx=2, pady=3)
 twoButton = ttk.Button(win, text="3", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: addToTxt("3"))
 twoButton.grid(row=3, column=2,padx=2, pady=3)
 
-hakenButton = ttk.Button(win, text="√", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: HakenaddToTxt("√"))
+hakenButton = ttk.Button(win, text="√", pady=10, padx=20, font="Serif 15", bg="black", fg="white", command=lambda: ConfirmEntrance("1"))
 hakenButton.grid(row=3, column=3,padx=2, pady=3)
 
 #row 4
