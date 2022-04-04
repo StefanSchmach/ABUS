@@ -716,21 +716,6 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
 
     Delete(1)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 win = ttk.Tk()
 win.title('Terxon Simulator')
 win.geometry('380x440')
