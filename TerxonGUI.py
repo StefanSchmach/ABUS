@@ -1,4 +1,50 @@
 import tkinter as ttk
+import os
+import json
+
+#Standard Start Funktionen
+def StartConfigurationFile(x):
+    FolderPath = "C:/TerxonSim"
+    ConfigPath = "C:/TerxonSim/TerxonConfig.json"
+    if os.path.exists(FolderPath):
+        print("Ordner existiert!")
+        if os.path.exists(ConfigPath):
+            print("File existiert!")
+        else:
+            json_obj = {
+                'LaenderEinstellung' : 'D - Deutschland',              #Einstellung 000
+                'ZonenEinstellungenDef' : ' NV - Nicht verwendet',     #Einstellung 001 -016
+                'ZonenEinstellungenFunkDef' : ' NV - Nicht verwendet', #Einstellung Funk 001
+                'Programmiercode' : '1111',                            #Einstellung 020
+                'ZonenAbschlussNummer' : 0,                            #Einstellung 021
+                'InterVolumeNummer' : "5",                             #Einstellung 022
+                'FernReset' : "0",                                     #Einstellung 023
+                'Kundenname' : "Max Mustermann",                       #Einstellung 024
+                'InternerAlarm' : 1,                                   #Einstellung 025
+                'AlarmbeiAktivierung' : 0,                             #Einstellung 027
+                'StatusAnzeigeAusblenden' : 0,                         #Einstellung 028
+                'ExternAlarmVerzoegerung' : 0,                         #Einstellung 029
+                'Ueberfallalarm' : 0,                                  #Einstellung 030
+                'ZonenSabotageReset' : 0,                              #Einstellung 031
+                'BedienteileundPartitionen' : 1,                       #Einstellung 032
+                'SystemReset' : 0,                                     #Einstellung 033
+                'UeberfallReset' : 0                                   #Einstellung 034
+            }
+            with open('C:/TerxonSim/TerxonConfig.json', 'w') as ConfigFile:
+                json.dump(json_obj, ConfigFile)
+            print("File wurde erstellt!")
+            ConfigFile.close()
+    else:
+        os.mkdir("C:/TerxonSim")
+        print("Ordner wurde erstellt!")
+        StartConfigurationFile(2)
+
+StartConfigurationFile(1)
+
+#def ReloadConfig(x):
+ #   with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
+  #      data = json.load(ConfigFile)
+   # ConfigFile.close()
 
 TxtValue = ""
 AusgabeText = ""
@@ -12,26 +58,34 @@ CID = 0
 DID = 0
 
 #Standard Menü Einstellungen
-LänderEinstellung = "D - Deutschland"               #Einstellung 000
-ZonenEinstellungen = "Zone "                        #Einstellung 001
-ZonenEinstellungenFunk = "Funk-Zone "               #Einstellung Funk 001
 ZonenNummer = ""                                    #Einstellung 001
-sZonenNummer = ""                                   #Einstellung 001
-Programmiercode = "1111"                            #Einstellung 020
-ZonenAbschlussNummer = 0                            #Einstellung 021
-InterVolumeNummer = "5"                             #Einstellung 022
-FernReset = "0"                                     #Einstellung 023
-Kundenname = "Max Mustermann"                       #Einstellung 024
-InternerAlarm = 1                                   #Einstellung 025
-AlarmbeiAktivierung = 0                             #Einstellung 027
-StatusAnzeigeAusblenden = 0                         #Einstellung 028
-ExternAlarmVerzögerung = 0                          #Einstellung 029
-Überfallalarm = 0                                   #Einstellung 030
-ZonenSabotageReset = 0                              #Einstellung 031
-BedienteileundPartitionen = 1                       #Einstellung 032
-SystemReset = 0                                     #Einstellung 033
-ÜberfallReset = 0                                   #Einstellung 034
+sZonenNummer =  ""                                   #Einstellung 001
+ZonenEinstellungen = "Zone "                        #Einstellung 001
+ZonenEinstellungenFunk = "Funk Zone "               #Einstellung Funk X17-X32
 
+#Terxon Config load
+with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
+    data = json.load(ConfigFile)
+
+LänderEinstellung = data["LaenderEinstellung"]                  #Einstellung 000
+ZonenEinstellungenDef = data["ZonenEinstellungenDef"]     #Einstellung 001 - 016
+ZonenEinstellungenFunkDef = data["ZonenEinstellungenFunkDef"]#Einstellung X17 - X32
+Programmiercode = data["Programmiercode"]                       #Einstellung 020
+ZonenAbschlussNummer = data["ZonenAbschlussNummer"]             #Einstellung 021
+InterVolumeNummer = data["InterVolumeNummer"]                   #Einstellung 022
+FernReset = data["FernReset"]                                   #Einstellung 023
+Kundenname = data["Kundenname"]                                 #Einstellung 024
+InternerAlarm = data["InternerAlarm"]                           #Einstellung 025
+AlarmbeiAktivierung = data["AlarmbeiAktivierung"]               #Einstellung 027
+StatusAnzeigeAusblenden = data["StatusAnzeigeAusblenden"]       #Einstellung 028
+ExternAlarmVerzoegerung = data["ExternAlarmVerzoegerung"]       #Einstellung 029
+Ueberfallalarm = data["Ueberfallalarm"]                         #Einstellung 030
+ZonenSabotageReset = data["ZonenSabotageReset"]                 #Einstellung 031
+BedienteileundPartitionen = data["BedienteileundPartitionen"]   #Einstellung 032
+SystemReset = data["SystemReset"]                               #Einstellung 033
+UeberfallReset = data["UeberfallReset"]                         #Einstellung 034
+
+ConfigFile.close()
 
 
 BereichID = 1000
@@ -40,6 +94,8 @@ ModusName = ""
 #999 = 0 Bereich
 #7890 = Programmier Bereich
 # x>250 = Menüpunkte Programmierbereich
+
+
 
 def HakenaddToTxt(x):
     global TxtValue
@@ -241,23 +297,8 @@ def ConfirmEntrance(q):
 def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
-    global LänderEinstellung
     global ZonenNummer
     global sZoneNummer
-    global Programmiercode
-    global ZonenAbschlussNummer
-    global InterVolumeNummer
-    global FernReset
-    global Kundenname
-    global InternerAlarm
-    global AlarmbeiAktivierung
-    global StatusAnzeigeAusblenden
-    global ExternAlarmVerzögerung
-    global Überfallalarm
-    global ZonenSabotageReset
-    global BedienteileundPartitionen
-    global SystemReset
-    global ÜberfallReset
     global XID
     global AID
     global HID
@@ -274,18 +315,19 @@ def MenüPunkte(Menüpunkt):
     elif Menüpunkt >= 1 and Menüpunkt <= 16:
         print("Menüpunkt: 001 - 016")
         ZonenNummer = Menüpunkt
-        sZonenNummer = str(ZonenNummer)
+        sZonenNummer = str(Menüpunkt)
         AusgabeEins.config(text=str("Menüpunkt: 001 -016 | Draht-Zoneneinstellung"))
-        AusgabeZwei.config(text=str(ZonenEinstellungen + sZonenNummer))
+        AusgabeZwei.config(text=str(ZonenEinstellungen + sZonenNummer + ZonenEinstellungenDef))
         BereichID = 1
         Delete(1)
     elif Menüpunkt >=17 and Menüpunkt <= 32 and XID == 2:
         ZonenNummer = Menüpunkt
-        sZonenNummer = str(ZonenNummer)
-        AusgabeEins.config(text=str("Menüpunkt: X17 -X32 | Funk-Zoneneinstellung"))
-        AusgabeZwei.config(text=str(ZonenEinstellungen + sZonenNummer))
-        BereichID = 1
+        sZonenNummer = str(Menüpunkt)
+        AusgabeEins.config(text=str("Menüpunkt: 001 -016 | Funk-Zoneneinstellung"))
+        AusgabeZwei.config(text=str(ZonenEinstellungen + sZonenNummer + ZonenEinstellungenFunkDef))
+        BereichID = 17
         Delete(1)
+        XID = 0
     elif Menüpunkt == 20:
         text = str(Programmiercode)
         print("Menüpunkt: 020")
@@ -306,7 +348,10 @@ def MenüPunkte(Menüpunkt):
     elif Menüpunkt == 22:
         print("Menüpunkt: 022")
         AusgabeEins.config(text=str("Menüpunkt: 022 | Intern Volume"))
-        AusgabeZwei.config(text=str("Volumen ist: " + InterVolumeNummer))
+        if InterVolumeNummer == 0:
+            AusgabeZwei.config(text=str("Volumen ist: " + InterVolumeNummer))
+        else:
+            AusgabeZwei.config(text=str("Volumen ist: aus"))
         BereichID = 22
         Delete(1)
     elif Menüpunkt == 23:
@@ -359,20 +404,20 @@ def MenüPunkte(Menüpunkt):
     elif Menüpunkt == 29:
         print("Menüpunkt: 029")
         AusgabeEins.config(text=str("Menüpunkt: 029 | Extern Alarm Verzögern"))
-        Text = str(ExternAlarmVerzögerung)
-        if ExternAlarmVerzögerung == 0:
+        Text = str(ExternAlarmVerzoegerung)
+        if ExternAlarmVerzoegerung == 0:
             AusgabeZwei.config(text=str(Text + " - Aus"))
-        if ExternAlarmVerzögerung == 1:
+        if ExternAlarmVerzoegerung == 1:
             AusgabeZwei.config(text=str(Text + " - An"))
         BereichID = 29
         Delete(1)
     elif Menüpunkt == 30:
         print("Menüpunkt: 030")
         AusgabeEins.config(text=str("Menüpunkt: 030 | Überfallalarm"))
-        Text = str(Überfallalarm)
-        if Überfallalarm == 0:
+        Text = str(Ueberfallalarm)
+        if Ueberfallalarm == 0:
             AusgabeZwei.config(text=str( Text + " - Laut"))
-        elif Überfallalarm == 1:
+        elif Ueberfallalarm == 1:
             AusgabeZwei.config(text=str( Text + " - Still"))
         BereichID = 30
         Delete(1)
@@ -410,7 +455,7 @@ def MenüPunkte(Menüpunkt):
         BereichID = 33
     elif Menüpunkt == 34:
         print("Menüpunkt: 034")
-        Text = str(SystemReset)
+        Text = str(UeberfallReset)
         AusgabeEins.config(text=str("Menüpunkt: 034 | Überfall Reset"))
         if SystemReset == 0:
             AusgabeZwei.config(text=str(Text + " - Benutzer Reset"))
@@ -494,174 +539,318 @@ def MenüPunkte(Menüpunkt):
         Delete(1)
     Delete(1)
 
-
 def EinstellungsPunkte(iTxtValue, CodeLenght):
     global TxtValue
     global CodeTxt
     global BereichID
     global XID
     global HakenID
-    global LänderEinstellung
-    global ZonenEinstellungen
     global ZonenNummer
     global sZonenNummer
     global ModusName
-    global Programmiercode
-    global ZonenAbschlussNummer
-    global InterVolumeNummer
-    global StatusAnzeigeAusblenden
-    global Überfallalarm
-    global BedienteileundPartitionen
-    global SystemReset
-    global AlarmbeiAktivierung
-    global  ExternAlarmVerzögerung
-    global ZonenSabotageReset
+    print(sZonenNummer)
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0:
-            LänderEinstellung = "UK – Großbritannien "
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "UK – Großbritannien "
+            data["LaenderEinstellung"] = "UK – Großbritannien "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 1 and XID == 0:
-            LänderEinstellung = "I – Italien"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "I – Italien"
+            data["LaenderEinstellung"] = "I – Italien "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 2 and XID == 0:
-            LänderEinstellung = "EE – Spanien"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "EE – Spanien"
+            data["LaenderEinstellung"] = "EE – Spanien "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 3 and XID == 0:
-            LänderEinstellung = "P – Portugal"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "P – Portugal"
+            data["LaenderEinstellung"] = "P – Portugal "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 4 and XID == 0:
-            LänderEinstellung = "NL – Niederlande"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "NL – Niederlande"
+            data["LaenderEinstellung"] = "NL – Niederlande "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 5 and XID == 0:
-            LänderEinstellung = "FR – Frankreich"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "FR – Frankreich"
+            data["LaenderEinstellung"] = "FR – Frankreich "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 6 and XID == 0:
-            LänderEinstellung = "B – Belgien"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "B – Belgien"
+            data["LaenderEinstellung"] = "B – Belgien "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 7 and XID == 0:
-            LänderEinstellung = "D – Deutschland"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "D – Deutschland"
+            data["LaenderEinstellung"] = "D – Deutschland "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 8 and XID == 0:
-            LänderEinstellung = "CH – Schweiz"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "CH – Schweiz"
+            data["LaenderEinstellung"] = "CH – Schweiz "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 9 and XID == 0:
-            LänderEinstellung = "A – Österreich"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "A – Österreich"
+            data["LaenderEinstellung"] = "A – Österreich "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 1 and XID == 2:
-            LänderEinstellung = "IRL – Irland"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "IRL – Irland"
+            data["LaenderEinstellung"] = "IRL – Irland "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 2 and XID == 2:
-            LänderEinstellung = "OEM1"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "OEM1"
+            data["LaenderEinstellung"] = "OEM1 "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 3 and XID == 2:
-            LänderEinstellung = "OEM2"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "OEM2"
+            data["LaenderEinstellung"] = "OEM2 "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 4 and XID == 2:
-            LänderEinstellung = "FI – Finnland"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "FI – Finnland"
+            data["LaenderEinstellung"] = "FI – Finnland "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 5 and XID == 2:
-            LänderEinstellung = "N – Norwegen"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "N – Norwegen"
+            data["LaenderEinstellung"] = "N – Norwegen "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 6 and XID == 2:
-            LänderEinstellung = "DK – Dänemark"
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "DK – Dänemark"
+            data["LaenderEinstellung"] = "DK – Dänemark "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         elif iTxtValue == 7 and XID == 2:
-            LänderEinstellung = "S – Schweden "
-            AusgabeZwei.config(text=str(LänderEinstellung))
+            LaenderEinstellung = "S – Schweden "
+            data["LaenderEinstellung"] = "S – Schweden "
+            AusgabeZwei.config(text=str(LaenderEinstellung))
         Delete(1)
         BereichID = 7890
     elif BereichID == 1 and CodeLenght > 0 and CodeLenght <= 2:
         if iTxtValue == 0 and XID == 0 and BID == 0 and CID == 0 and DID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "NV – Nicht verwendet "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " NV – Nicht verwendet"
+            Text = ZonenEinstellungen + sZonenNummer + " NV – Nicht verwendet"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 1 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "UF – Überfall "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " UF – Überfall"
+            Text = ZonenEinstellungen + sZonenNummer + " UF – Überfall"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 2 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "FE -Feuer "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " FE -Feuer "
+            Text = ZonenEinstellungen + sZonenNummer + " FE -Feuer "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 3 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer +"SO - Sofort "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " SO - Sofort "
+            Text = ZonenEinstellungen + sZonenNummer + " SO - Sofort "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 4 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer +"24 -24 Stunden "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " 24 -24 Stunden"
+            Text = ZonenEinstellungen + sZonenNummer + " 24 -24 Stunden"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 5 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer +  "EA -Ein/Ausgang "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " EA -Ein/Ausgang"
+            Text = ZonenEinstellungen + sZonenNummer +  " EA -Ein/Ausgang"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 6 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "EF -Eingang folgend "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " EF -Eingang folgend"
+            Text = ZonenEinstellungen + sZonenNummer + " EF -Eingang folgend"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 7 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "ES - Erschütterungssensor "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " ES - Erschütterungssensor"
+            Text = ZonenEinstellungen + sZonenNummer + " ES - Erschütterungssensor"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 8 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "TK - Technik "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " TK - Technik "
+            Text = ZonenEinstellungen + sZonenNummer + ZonenEinstellungenDef
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 9 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "SK - Schlüsselkasten "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " SK - Schlüsselkasten "
+            Text = ZonenEinstellungen + sZonenNummer + " SK - Schlüsselkasten "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 10 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "BM - Brandmelder "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " BM - Brandmelder "
+            Text = ZonenEinstellungen + sZonenNummer + " BM - Brandmelder "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 11 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "SS - Schlüssekschalter "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " SS - Schlüssekschalter "
+            Text = ZonenEinstellungen + sZonenNummer + " SS - Schlüssekschalter "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 12 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "BS - Blockschloss "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " BS - Blockschloss "
+            Text = ZonenEinstellungen + sZonenNummer + " BS - Blockschloss "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 13 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "AM - Anti Mask "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " AM - Anti Mask "
+            Text = ZonenEinstellungen + sZonenNummer + " AM - Anti Mask "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 14 and XID == 0:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "FB - Forbikobler Zone "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " FB - Forbikobler Zone "
+            Text = ZonenEinstellungen + sZonenNummer + " FB - Forbikobler Zone "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 1 and XID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "C - Türgong "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " C - Türgong "
+            Text = ZonenEinstellungen + sZonenNummer + " C - Türgong "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 2 and XID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "S - Melderset "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " S - Melderset "
+            Text = ZonenEinstellungen + sZonenNummer + " S - Melderset "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 3 and XID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "D - Doppelauslösung "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " D - Doppelauslösung "
+            Text = ZonenEinstellungen + sZonenNummer + " D - Doppelauslösung "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 4 and XID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "O - Zonensperren möglich "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " EF -Eingang folgend"
+            Text = ZonenEinstellungen + sZonenNummer + " EF -Eingang folgend"
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif iTxtValue == 7 and XID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "1....6 Empfindlichkeit "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " 1....6 Empfindlichkeit "
+            Text = ZonenEinstellungen + sZonenNummer + " 1....6 Empfindlichkeit "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif BID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich B "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " Überwacht im Bereich B "
+            Text = ZonenEinstellungen + sZonenNummer + " Überwacht im Bereich B "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif CID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich C "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " Überwacht im Bereich C "
+            Text = ZonenEinstellungen + sZonenNummer + " Überwacht im Bereich C "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
         elif DID == 2:
-            ZonenEinstellungen = ZonenEinstellungen + sZonenNummer + "Überwacht im Bereich D "
-            AusgabeZwei.config(text=str(ZonenEinstellungen))
+            data["ZonenEinstellungenDef"] = " Überwacht im Bereich D "
+            Text = ZonenEinstellungen + sZonenNummer + " Überwacht im Bereich D "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+    elif BereichID == 17 and CodeLenght > 0 and CodeLenght <= 2:
+        if iTxtValue == 0 and XID == 0 and BID == 0 and CID == 0 and DID == 0:
+            data["ZonenEinstellungenFunkDef"] = " NV – Nicht verwendet"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " NV – Nicht verwendet"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 1 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " UF – Überfall"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " UF – Überfall"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 2 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " FE -Feuer "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " FE -Feuer "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 3 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " SO - Sofort "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " SO - Sofort "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 4 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " 24 -24 Stunden"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " 24 -24 Stunden"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 5 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " EA -Ein/Ausgang"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " EA -Ein/Ausgang"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 6 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " EF -Eingang folgend"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " EF -Eingang folgend"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 7 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " ES - Erschütterungssensor"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " ES - Erschütterungssensor"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 8 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " TK - Technik "
+            Text = ZonenEinstellungenFunk + sZonenNummer + ZonenEinstellungenDef
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 9 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " SK - Schlüsselkasten "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " SK - Schlüsselkasten "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 10 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " BM - Brandmelder "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " BM - Brandmelder "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 11 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " SS - Schlüssekschalter "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " SS - Schlüssekschalter "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 12 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " BS - Blockschloss "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " BS - Blockschloss "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 13 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " AM - Anti Mask "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " AM - Anti Mask "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 14 and XID == 0:
+            data["ZonenEinstellungenFunkDef"] = " FB - Forbikobler Zone "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " FB - Forbikobler Zone "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 1 and XID == 2:
+            data["ZonenEinstellungenFunkDef"] = " C - Türgong "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " C - Türgong "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 2 and XID == 2:
+            data["ZonenEinstellungenFunkDef"] = " S - Melderset "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " S - Melderset "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 3 and XID == 2:
+            data["ZonenEinstellungenFunkDef"] = " D - Doppelauslösung "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " D - Doppelauslösung "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 4 and XID == 2:
+            data["ZonenEinstellungenFunkDef"] = " EF -Eingang folgend"
+            Text = ZonenEinstellungenFunk + sZonenNummer + " EF -Eingang folgend"
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif iTxtValue == 7 and XID == 2:
+            data["ZonenEinstellungenFunkDef"] = " 1....6 Empfindlichkeit "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " 1....6 Empfindlichkeit "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif BID == 2:
+            data["ZonenEinstellungenFunkDef"] = " Überwacht im Bereich B "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " Überwacht im Bereich B "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif CID == 2:
+            data["ZonenEinstellungenFunkDef"] = " Überwacht im Bereich C "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " Überwacht im Bereich C "
+            AusgabeZwei.config(text=str(Text))
+            Delete(1)
+        elif DID == 2:
+            data["ZonenEinstellungenFunkDef"] = " Überwacht im Bereich D "
+            Text = ZonenEinstellungenFunk + sZonenNummer + " Überwacht im Bereich D "
+            AusgabeZwei.config(text=str(Text))
             Delete(1)
     elif BereichID == 20:
         Programmiercode = iTxtValue
@@ -734,21 +923,21 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             AusgabeZwei.config(text=str(Text + " - 30Sek nach Code ausblenden"))
     elif BereichID == 29:
         if iTxtValue == 0:
-            ExternAlarmVerzögerung = 0
-            Text = str(ExternAlarmVerzögerung)
+            ExternAlarmVerzoegerung = 0
+            Text = str(ExternAlarmVerzoegerung)
             AusgabeZwei.config(text=str(Text + " - Aus"))
         elif iTxtValue == 1:
-            ExternAlarmVerzögerung = 1
-            Text = str(ExternAlarmVerzögerung)
+            ExternAlarmVerzoegerung = 1
+            Text = str(ExternAlarmVerzoegerung)
             AusgabeZwei.config(text=str(Text + " - An"))
     elif BereichID == 30:
         if iTxtValue == 0:
-            Überfallalarm = 0
-            Text = str(Überfallalarm)
+            Ueberfallalarm = 0
+            Text = str(Ueberfallalarm)
             AusgabeZwei.config(text=str(Text + " - Laut"))
         elif iTxtValue == 1:
-            Überfallalarm = 1
-            Text = str(Überfallalarm)
+            Ueberfallalarm = 1
+            Text = str(Ueberfallalarm)
             AusgabeZwei.config(text=str(Text + " - Still"))
     elif BereichID == 31:
         if iTxtValue == 0:
@@ -787,18 +976,27 @@ def EinstellungsPunkte(iTxtValue, CodeLenght):
             AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
     elif BereichID == 34:
         if iTxtValue == 0:
-            SystemReset = 0
-            Text = str(SystemReset)
+            UeberfallReset = 0
+            Text = str(UeberfallReset)
             AusgabeZwei.config(text=str(Text + " - Kein Program.code notw. "))
         elif iTxtValue == 1:
-            SystemReset = 1
-            Text = str(SystemReset)
+            UeberfallReset = 1
+            Text = str(UeberfallReset)
             AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
+
+    with open("C:/TerxonSim/TerxonConfig.json", 'w') as ConfigFile:
+        Write = json.dump(data, ConfigFile)
+    ConfigFile.close()
+
+
     Delete(1)
     BereichID = 7890
     AusgabeEins.config(text=str("Programmiermodus"))
     VarNull(1)
 
+
+
+#Windows
 win = ttk.Tk()
 win.title('Terxon Simulator')
 win.geometry('380x440')
@@ -874,4 +1072,3 @@ AusgabeZwei = ttk.Label(win, pady=0, padx=0, font="Serif 12", bg="yellow", fg="b
 AusgabeZwei.grid(row=8, column=0, columnspan=5 ,padx=2, pady=3)
 
 win.mainloop()
-
