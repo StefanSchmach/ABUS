@@ -59,7 +59,7 @@ DID = 0
 
 #Standard Menü Einstellungen
 ZonenNummer = ""                                    #Einstellung 001
-sZonenNummer =  ""                                   #Einstellung 001
+sZonenNummer =  ""                                  #Einstellung 001
 ZonenEinstellungen = "Zone "                        #Einstellung 001
 ZonenEinstellungenFunk = "Funk Zone "               #Einstellung Funk X17-X32
 
@@ -217,6 +217,7 @@ def ConfirmEntrance(q):
     global TxtValue
     global BereichID
     global AusgabeText
+    global sZonenNummer
     global XID
     global HID
     global AID
@@ -290,7 +291,7 @@ def ConfirmEntrance(q):
         MenüPunkte(iTxtValue)
     elif BereichID < 250:
         print("<250")
-        EinstellungsPunkte(iTxtValue, CodeLenght)
+        EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer)
     if TxtValue == "" and XID == 2 or AID == 2 or BID == 2 or CID == 2 or DID == 2:
         print("XABCD")
 
@@ -539,14 +540,14 @@ def MenüPunkte(Menüpunkt):
         Delete(1)
     Delete(1)
 
-def EinstellungsPunkte(iTxtValue, CodeLenght):
+def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     global TxtValue
     global CodeTxt
     global BereichID
     global XID
     global HakenID
     global ZonenNummer
-    global sZonenNummer
+    #global sZonenNummer
     global ModusName
     print(sZonenNummer)
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
