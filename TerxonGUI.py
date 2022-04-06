@@ -1,9 +1,13 @@
 import tkinter as ttk
 import os
 import json
+import datetime as datetime
+
+UsernameWindows = os.getlogin()
 
 #Standard Start Funktionen
 def StartConfigurationFile(x):
+    global UsernameWindows
     FolderPath = "C:/TerxonSim"
     ConfigPath = "C:/TerxonSim/TerxonConfig.json"
     if os.path.exists(FolderPath):
@@ -12,23 +16,54 @@ def StartConfigurationFile(x):
             print("File existiert!")
         else:
             json_obj = {
-                'LaenderEinstellung' : 'D - Deutschland',              #Einstellung 000
-                'ZonenEinstellungenDef' : ' NV - Nicht verwendet',     #Einstellung 001 -016
-                'ZonenEinstellungenFunkDef' : ' NV - Nicht verwendet', #Einstellung Funk 001
-                'Programmiercode' : '1111',                            #Einstellung 020
-                'ZonenAbschlussNummer' : 0,                            #Einstellung 021
-                'InterVolumeNummer' : "5",                             #Einstellung 022
-                'FernReset' : "0",                                     #Einstellung 023
-                'Kundenname' : "Max Mustermann",                       #Einstellung 024
-                'InternerAlarm' : 1,                                   #Einstellung 025
-                'AlarmbeiAktivierung' : 0,                             #Einstellung 027
-                'StatusAnzeigeAusblenden' : 0,                         #Einstellung 028
-                'ExternAlarmVerzoegerung' : 0,                         #Einstellung 029
-                'Ueberfallalarm' : 0,                                  #Einstellung 030
-                'ZonenSabotageReset' : 0,                              #Einstellung 031
-                'BedienteileundPartitionen' : 1,                       #Einstellung 032
-                'SystemReset' : 0,                                     #Einstellung 033
-                'UeberfallReset' : 0                                   #Einstellung 034
+                'LaenderEinstellung' : 'D - Deutschland'                #Einstellung 000
+                ,'ZonenEinstellungenDef' : ' NV - Nicht verwendet'      #Einstellung 001 -016
+                ,'ZonenEinstellungenFunkDef' : ' NV - Nicht verwendet'  #Einstellung Funk 001
+                ,'Programmiercode' : '1111'                             #Einstellung 020
+                ,'ZonenAbschlussNummer' : 0                             #Einstellung 021
+                ,'InterVolumeNummer' : "5"                              #Einstellung 022
+                ,'FernReset' : "0"                                      #Einstellung 023
+                ,'Kundenname' : UsernameWindows                         #Einstellung 024
+                ,'InternerAlarm' : 1                                    #Einstellung 025
+                ,'AlarmbeiAktivierung' : 0                              #Einstellung 027
+                ,'StatusAnzeigeAusblenden' : 0                          #Einstellung 028
+                ,'ExternAlarmVerzoegerung' : 0                          #Einstellung 029
+                ,'Ueberfallalarm' : 0                                   #Einstellung 030
+                ,'ZonenSabotageReset' : 0                               #Einstellung 031
+                ,'BedienteileundPartitionen' : 1                        #Einstellung 032
+                ,'SystemReset' : 0                                      #Einstellung 033
+                ,'UeberfallReset' : 0                                   #Einstellung 034
+                ,'ErstmelderAlarmausblenden' : 0                        #Einstellung 035
+                ,'AlarmAbbruch' : 0                                     #Einstellung 036
+                ,'SabotageReportdeaktiv' : 0                            #Einstellung 037
+                ,'SystemsabotageReset' : 0                              #Einstellung 038
+                ,'AusgangsmodusBereichA' : 0                            #Einstellung 039
+                ,'SystemAutoAktivnachAlarm' : 0                         #Einstellung 040
+                ,'SirenenVerzögerung' : 0                               #Einstellung 041
+                ,'Sirenendauer' : 1                                     #Einstellung 042
+                ,'AusgangszeitGesamtbereich' :1                         #Einstellung 044
+                ,'EinAusgagsverzögerungVolumen' : 0                     #Einstellung 045
+                ,'SabotagealarmReaktion' : 0                            #Einstellung 046
+                ,'PartionAAlarmReaktion' : 0                            #Einstellung 047
+                ,'Bedienteilsperre' : 0                                 #Einstellung 048
+                ,'Datum und Uhrzeit' : 'Comming Soon'                   #Einstellung 051
+                ,'ZonenundSabotageSperren' : 0                          #Einstellung 052
+                ,'AbbruchReset' : 0                                     #Einstellung 053
+                ,'SupervisionFunkmelder' : 0                            #Einstellung 054
+                ,'LängeZugangscode' : 0                                 #Einstellung 056
+                ,'BatterieTest' : 0                                     #Einstellung 057
+                ,'SupervisionSabotageReset' : 0                         #Einstellung 058
+                ,'SabotageSirene' : 0                                   #Einstellung 059
+                ,'ZonenverhaltenInternB' : 0                            #Einstellung 060
+                ,'ZonenverhaltenInternBEins' : 0                        #Einstellung 061
+                ,'AusgangsmodusInternB' : 0                             #Einstellung 062
+                ,'AlarmverhaltenInternB' : 0                            #Einstellung 063
+                ,'AlarmverhaltenInternBEins' : 0                        #Einstellung 064
+                ,'AusgangszeitInternB' : 0                              #Einstellung 065
+                ,'ForbikoblerKorrekt' : 1                               #Einstellung 067
+                ,'ForbikoblerEintrittszeiten' : 0                       #Einstellung 068
+                ,'ForbikoblerTürsperre' : 0                             #Einstellung 069
+
             }
             with open('C:/TerxonSim/TerxonConfig.json', 'w') as ConfigFile:
                 json.dump(json_obj, ConfigFile)
@@ -41,10 +76,10 @@ def StartConfigurationFile(x):
 
 StartConfigurationFile(1)
 
-#def ReloadConfig(x):
- #   with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
-  #      data = json.load(ConfigFile)
-   # ConfigFile.close()
+def ReloadConfig(x):
+         with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
+            data = json.load(ConfigFile)
+         ConfigFile.close()
 
 TxtValue = ""
 AusgabeText = ""
@@ -64,28 +99,30 @@ ZonenEinstellungen = "Zone "                        #Einstellung 001
 ZonenEinstellungenFunk = "Funk Zone "               #Einstellung Funk X17-X32
 
 #Terxon Config load
+
+
 with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
     data = json.load(ConfigFile)
 
-LänderEinstellung = data["LaenderEinstellung"]                  #Einstellung 000
-ZonenEinstellungenDef = data["ZonenEinstellungenDef"]     #Einstellung 001 - 016
-ZonenEinstellungenFunkDef = data["ZonenEinstellungenFunkDef"]#Einstellung X17 - X32
-Programmiercode = data["Programmiercode"]                       #Einstellung 020
-ZonenAbschlussNummer = data["ZonenAbschlussNummer"]             #Einstellung 021
-InterVolumeNummer = data["InterVolumeNummer"]                   #Einstellung 022
-FernReset = data["FernReset"]                                   #Einstellung 023
-Kundenname = data["Kundenname"]                                 #Einstellung 024
-InternerAlarm = data["InternerAlarm"]                           #Einstellung 025
-AlarmbeiAktivierung = data["AlarmbeiAktivierung"]               #Einstellung 027
-StatusAnzeigeAusblenden = data["StatusAnzeigeAusblenden"]       #Einstellung 028
-ExternAlarmVerzoegerung = data["ExternAlarmVerzoegerung"]       #Einstellung 029
-Ueberfallalarm = data["Ueberfallalarm"]                         #Einstellung 030
-ZonenSabotageReset = data["ZonenSabotageReset"]                 #Einstellung 031
-BedienteileundPartitionen = data["BedienteileundPartitionen"]   #Einstellung 032
-SystemReset = data["SystemReset"]                               #Einstellung 033
-UeberfallReset = data["UeberfallReset"]                         #Einstellung 034
+    LänderEinstellung = data["LaenderEinstellung"]                  #Einstellung 000
+    ZonenEinstellungenDef = data["ZonenEinstellungenDef"]     #Einstellung 001 - 016
+    ZonenEinstellungenFunkDef = data["ZonenEinstellungenFunkDef"]#Einstellung X17 - X32
+    Programmiercode = data["Programmiercode"]                       #Einstellung 020
+    ZonenAbschlussNummer = data["ZonenAbschlussNummer"]             #Einstellung 021
+    InterVolumeNummer = data["InterVolumeNummer"]                   #Einstellung 022
+    FernReset = data["FernReset"]                                   #Einstellung 023
+    Kundenname = data["Kundenname"]                                 #Einstellung 024
+    InternerAlarm = data["InternerAlarm"]                           #Einstellung 025
+    AlarmbeiAktivierung = data["AlarmbeiAktivierung"]               #Einstellung 027
+    StatusAnzeigeAusblenden = data["StatusAnzeigeAusblenden"]       #Einstellung 028
+    ExternAlarmVerzoegerung = data["ExternAlarmVerzoegerung"]       #Einstellung 029
+    Ueberfallalarm = data["Ueberfallalarm"]                         #Einstellung 030
+    ZonenSabotageReset = data["ZonenSabotageReset"]                 #Einstellung 031
+    BedienteileundPartitionen = data["BedienteileundPartitionen"]   #Einstellung 032
+    SystemReset = data["SystemReset"]                               #Einstellung 033
+    UeberfallReset = data["UeberfallReset"]                         #Einstellung 034
 
-ConfigFile.close()
+    ConfigFile.close()
 
 
 BereichID = 1000
@@ -299,7 +336,7 @@ def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
     global ZonenNummer
-    global sZoneNummer
+    #global sZoneNummer
     global XID
     global AID
     global HID
@@ -307,6 +344,7 @@ def MenüPunkte(Menüpunkt):
     global CID
     global DID
 
+    ReloadConfig(1)
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
         AusgabeEins.config(text=str("Menüpunkt: 000"))
@@ -350,9 +388,9 @@ def MenüPunkte(Menüpunkt):
         print("Menüpunkt: 022")
         AusgabeEins.config(text=str("Menüpunkt: 022 | Intern Volume"))
         if InterVolumeNummer == 0:
-            AusgabeZwei.config(text=str("Volumen ist: " + InterVolumeNummer))
-        else:
             AusgabeZwei.config(text=str("Volumen ist: aus"))
+        else:
+            AusgabeZwei.config(text=str("Volumen ist: " + InterVolumeNummer))
         BereichID = 22
         Delete(1)
     elif Menüpunkt == 23:
@@ -438,11 +476,11 @@ def MenüPunkte(Menüpunkt):
         if BedienteileundPartitionen == 1:
             AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
         elif BedienteileundPartitionen == 2:
-            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition B"))
         elif BedienteileundPartitionen == 3:
-            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition C"))
         elif BedienteileundPartitionen == 4:
-            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition A"))
+            AusgabeZwei.config(text=str(Text + " - Zuweisung Bedienteil zu Partition D"))
         BereichID = 32
         Delete(1)
     elif Menüpunkt == 33:
@@ -546,7 +584,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     global BereichID
     global XID
     global HakenID
-    global ZonenNummer
+    #global ZonenNummer
     #global sZonenNummer
     global ModusName
     print(sZonenNummer)
@@ -855,6 +893,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
             Delete(1)
     elif BereichID == 20:
         Programmiercode = iTxtValue
+        data["Programmiercode"] = iTxtValue
         Text = str(Programmiercode)
         print(Programmiercode)
         AusgabeZwei.config(text=str("Programmiercode gesetzt auf " + Text))
@@ -862,10 +901,12 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     elif BereichID == 21:
         if iTxtValue == 0:
             ZonenAbschlussNummer = 0
+            data["ZonenAbschlussNummer"] = 0
             sZonenAbschlussNummer = str(ZonenAbschlussNummer)
             AusgabeZwei.config(text=str(sZonenAbschlussNummer + " = Kein Wiederstand NC"))
         elif iTxtValue == 1:
             ZonenAbschlussNummer = 1
+            data["ZonenAbschlussNummer"] = 1
             sZonenAbschlussNummer = str(ZonenAbschlussNummer)
             AusgabeZwei.config(text=str(sZonenAbschlussNummer + " = Zwei Wiederstände DEOL"))
     elif BereichID == 22:
@@ -874,106 +915,129 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
         if iTxtValue == 0:
             Text = "Volumen ist Aus: " + SInternVolumenNummer
             AusgabeZwei.config(text=str(Text))
+            data["InterVolumeNummer"] = iTxtValue
         else:
             Text = "Volumen ist: " + SInternVolumenNummer
             AusgabeZwei.config(text=str(Text))
+            data["InterVolumeNummer"] = iTxtValue
         Delete(1)
     elif BereichID == 23:
         if iTxtValue == 0:
             FernReset = iTxtValue
             Text = str(FernReset)
+            data["FernReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text +  "AUS"))
         elif iTxtValue == 1:
             FernReset = iTxtValue
             Text = str(FernReset)
+            data["FernReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " AN"))
     elif BereichID == 24 and XID == 2:
         BereichID = 7890
-        AusgabeEins.config(text=str("Programmiermodus des Namens"))
+        AusgabeEins.config(text=str("Programmiermodus"))
     elif BereichID == 25:
         if iTxtValue == 1:
             InternerAlarm = 1
             Text = str(InternerAlarm)
+            data["InternerAlarm"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " Lokal Alarm folgend"))
         elif iTxtValue == 0:
             InternerAlarm = 0
             Text = str(InternerAlarm)
+            data["InternerAlarm"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " Bis deaktiviert"))
         Delete(1)
     elif BereichID == 27:
         if iTxtValue == 0:
             AlarmbeiAktivierung = 0
             Text = str(AlarmbeiAktivierung)
+            data["AlarmbeiAktivierung"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Intern Alarm"))
         elif iTxtValue == 1:
             AlarmbeiAktivierung = 1
             Text = str(AlarmbeiAktivierung)
+            data["AlarmbeiAktivierung"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Lokaler Alarm"))
     elif BereichID == 28:
         if iTxtValue == 0:
             StatusAnzeigeAusblenden = 0
+            data["StatusAnzeigeAusblenden"] = iTxtValue
             Text = str(StatusAnzeigeAusblenden)
             AusgabeZwei.config(text=str(Text + " - Nie ausblenden"))
         elif iTxtValue == 1:
             StatusAnzeigeAusblenden = 1
             Text = str(StatusAnzeigeAusblenden)
+            data["StatusAnzeigeAusblenden"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Nach 180 Sek ausblenden"))
         elif iTxtValue == 2:
             StatusAnzeigeAusblenden = 2
             Text = str(StatusAnzeigeAusblenden)
+            data["StatusAnzeigeAusblenden"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - 30Sek nach Code ausblenden"))
     elif BereichID == 29:
         if iTxtValue == 0:
             ExternAlarmVerzoegerung = 0
             Text = str(ExternAlarmVerzoegerung)
+            data["ExternAlarmVerzoegerung"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Aus"))
         elif iTxtValue == 1:
             ExternAlarmVerzoegerung = 1
             Text = str(ExternAlarmVerzoegerung)
+            data["ExternAlarmVerzoegerung"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - An"))
     elif BereichID == 30:
         if iTxtValue == 0:
             Ueberfallalarm = 0
             Text = str(Ueberfallalarm)
+            data["Ueberfallalarm"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Laut"))
         elif iTxtValue == 1:
             Ueberfallalarm = 1
             Text = str(Ueberfallalarm)
+            data["Ueberfallalarm"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Still"))
     elif BereichID == 31:
         if iTxtValue == 0:
             ZonenSabotageReset = 0
             Text = str(ZonenSabotageReset)
+            data["ZonenSabotageReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Kein Program.code notw."))
         elif iTxtValue == 1:
             ZonenSabotageReset = 1
             Text = str(ZonenSabotageReset)
+            data["ZonenSabotageReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Programmiercode notw."))
     elif BereichID == 32:
         if AID == 2:
             BedienteileundPartitionen = 1
+            data["BedienteileundPartitionen"] = 1
             Text = "A"
             AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition A"))
         elif BID == 2:
             BedienteileundPartitionen = 2
+            data["BedienteileundPartitionen"] = 2
             Text = "B"
             AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition B"))
         elif CID == 2:
             BedienteileundPartitionen = 3
+            data["BedienteileundPartitionen"] = 3
             Text = "C"
             AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition C"))
         elif DID == 2:
             BedienteileundPartitionen = 4
+            data["BedienteileundPartitionen"] = 4
             Text = "D"
             AusgabeZwei.config(text=str(Text + " - Zuweosimg Bedienteil zu Partition D"))
     elif BereichID == 33:
         if iTxtValue == 0:
             SystemReset = 0
             Text = str(SystemReset)
+            data["SystemReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Kein Program.code notw. "))
         elif iTxtValue == 1:
             SystemReset = 1
             Text = str(SystemReset)
+            data["SystemReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Program.code notw. "))
     elif BereichID == 34:
         if iTxtValue == 0:
@@ -989,13 +1053,10 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
         Write = json.dump(data, ConfigFile)
     ConfigFile.close()
 
-
     Delete(1)
     BereichID = 7890
     AusgabeEins.config(text=str("Programmiermodus"))
     VarNull(1)
-
-
 
 #Windows
 win = ttk.Tk()
