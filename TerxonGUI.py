@@ -1,16 +1,164 @@
 import tkinter as ttk
 import os
 import json
-import datetime as datetime
+import functools
+from datetime import datetime
+
+
 
 UsernameWindows = os.getlogin()
+FolderPathLocal = "C:/Users/" + UsernameWindows + "/AppData/Local"
+FolderPathLocalTerxon = FolderPathLocal + "/TerxonSimulation"
+CreateFile = FolderPathLocalTerxon + "/TerxonConfig.json"
+ConfigPath = CreateFile
+
+#def LoadConfig(x):
+   # globals().update(locals())
+with open(ConfigPath, 'r') as ConfigFile:
+    data = json.load(ConfigFile)
+    LaenderEinstellung = data["LaenderEinstellung"]  # Einstellung 000
+    ZonenEinstellungenDef = data["ZonenEinstellungenDef"]  # Einstellung 001 - 016
+    ZonenEinstellungenFunkDef = data["ZonenEinstellungenFunkDef"]  # Einstellung X17 - X32
+    Programmiercode = data["Programmiercode"]  # Einstellung 020
+    ZonenAbschlussNummer = data["ZonenAbschlussNummer"]  # Einstellung 021
+    InterVolumeNummer = data["InterVolumeNummer"]  # Einstellung 022
+    FernReset = data["FernReset"]  # Einstellung 023
+    Kundenname = data["Kundenname"]  # Einstellung 024
+    InternerAlarm = data["InternerAlarm"]  # Einstellung 025
+    AlarmbeiAktivierung = data["AlarmbeiAktivierung"]  # Einstellung 027
+    StatusAnzeigeAusblenden = data["StatusAnzeigeAusblenden"]  # Einstellung 028
+    ExternAlarmVerzoegerung = data["ExternAlarmVerzoegerung"]  # Einstellung 029
+    Ueberfallalarm = data["Ueberfallalarm"]  # Einstellung 030
+    ZonenSabotageReset = data["ZonenSabotageReset"]  # Einstellung 031
+    BedienteileundPartitionen = data["BedienteileundPartitionen"]  # Einstellung 032
+    SystemReset = data["SystemReset"]  # Einstellung 033
+    UeberfallReset = data["UeberfallReset"]  # Einstellung 034
+    ErstmelderAlarmausblenden = data['ErstmelderAlarmausblenden']  # Einstellung 035
+    AlarmAbbruch = data['AlarmAbbruch']  # Einstellung 036
+    SabotageReportdeaktiv = data['SabotageReportdeaktiv']  # Einstellung 037
+    SystemsabotageReset = data['SystemsabotageReset']  # Einstellung 038
+    AusgangsmodusBereichA = data['AusgangsmodusBereichA']  # Einstellung 039
+    SystemAutoAktivnachAlarm = data['SystemAutoAktivnachAlarm']  # Einstellung 040
+    SirenenVerzögerung = data['SirenenVerzögerung']  # Einstellung 041
+    Sirenendauer = data['Sirenendauer']  # Einstellung 042
+    AusgangszeitGesamtbereich = data['AusgangszeitGesamtbereich']  # Einstellung 044
+    EinAusgagsverzögerungVolumen = data['EinAusgagsverzögerungVolumen']  # Einstellung 045
+    SabotagealarmReaktion = data['SabotagealarmReaktion']  # Einstellung 046
+    PartionAAlarmReaktion = data['PartionAAlarmReaktion']  # Einstellung 047
+    Bedienteilsperre = data['Bedienteilsperre']  # Einstellung 048
+    DatumundUhrzeit = data['DatumundUhrzeit']  # Einstellung 051
+    ZonenundSabotageSperren = data['ZonenundSabotageSperren']  # Einstellung 052
+    AbbruchReset = data['AbbruchReset']  # Einstellung 053
+    SupervisionFunkmelder = data['SupervisionFunkmelder']  # Einstellung 054
+    LaengeZugangscode = data['LaengeZugangscode']  # Einstellung 056
+    BatterieTest = data['BatterieTest']  # Einstellung 057
+    SupervisionSabotageReset = data['SupervisionSabotageReset']  # Einstellung 058
+    SabotageSirene = data['SabotageSirene']  # Einstellung 059
+    ZonenverhaltenInternB = 'ZonenverhaltenInternB'  # Einstellung 060
+    ZonenverhaltenInternBEins = data['ZonenverhaltenInternBEins']  # Einstellung 061
+    AusgangsmodusInternB = data['AusgangsmodusInternB']  # Einstellung 062
+    AlarmverhaltenInternB = data['AlarmverhaltenInternB']  # Einstellung 063
+    AlarmverhaltenInternBEins = data['AlarmverhaltenInternBEins']  # Einstellung 064
+    AusgangszeitInternB = data['AusgangszeitInternB']  # Einstellung 065
+    ForbikoblerKorrekt = data['ForbikoblerKorrekt']  # Einstellung 067
+    ForbikoblerEintrittszeiten = data['ForbikoblerEintrittszeiten']  # Einstellung 068
+    ForbikoblerTuersperre = data['ForbikoblerTuersperre']  # Einstellung 069
+    ZonenverhaltenEFInternC = data['ZonenverhaltenEFInternC']  # Einstellung 070
+    ZonenverhaltenEAInternC = data['ZonenverhaltenEAInternC']  # Einstellung 071
+    AusgangsmodusInternC = data['AusgangsmodusInternC']  # Einstellung 072
+    AlarmverhaltenInternC = data['AlarmverhaltenInternC']  # Einstellung 073
+    AusgangszeitbeiInternC = data['AusgangszeitbeiInternC']  # Einstellung 075
+    AusgangsmodusInternD = data['AusgangsmodusInternD']  # Einstellung 076
+    AlarmverhaltenInternD = data['AlarmverhaltenInternD']  # Einstellung 077
+    AusgangszeitInternD = data['AusgangszeitInternD']  # Einstellung 079
+    ForbikoblerTuerklingel = data['ForbikoblerTuerklingel']  # Einstellung 080
+    VerhaltenRelaisausgangEins = data['VerhaltenRelaisausgangEins']  # Einstellung 081
+    VerhaltenRelaisausgangZwei = data['VerhaltenRelaisausgangZwei']  # Einstellung 082
+    VerhaltenTransistoraugangEins = data['VerhaltenTransistoraugangEins']  # Einstellung 083
+    VerhaltenAusgaengeEinbruchalarm = ['VerhaltenAusgaengeEinbruchalarm']  # Einstellung 085
+    ZusaetlicheEingangsversoegerung = data['ZusaetlicheEingangsversoegerung']  # Einstellung 086
+    Bedienteilalarm = data['Bedienteilalarm']  # Einstellung 087
+    AlarmBestaetigung = data['AlarmBestaetigung']  # Einstellung 089
+    Ereignisspeicher = ['Ereignisspeicher']  # Einstellung 090
+    AusgangEinsTest = data['AusgangEinsTest']  # Einstellung 091
+    AusgangZweiTest = data['AusgangZweiTest']  # Einstellung 092
+    AusgangDreiTest = data['AusgangDreiTest']  # Einstellung 093
+    InternLautsprecherTest = data['InternLautsprecherTest']  # Einstellung 094
+    SireneBedienteilTest = data['SireneBedienteilTest']  # Einstellung 095
+    Gehtest = data['Gehtest']  # Einstellung 097
+    WerkseinstellungWiedherstellen = data['WerkseinstellungWiedherstellen']  # Einstellung 098
+    ProgrammiermenuVerlassen = data['ProgrammiermenuVerlassen']  # Einstellung 099
+    RufmodusTWG = data['RufmodusTWG']  # Einstellung 101
+    FormatReport = data['FormatReport']  # Einstellung 103
+    Testanruf = data['Testanruf']  # Einstellung 105
+    Leitungsverlustmeldung = data['Leitungsverlustmeldung']  # Einstellung 106
+    DynamischerTestanruf = data['DynamischerTestanruf']  # Einstellung 108
+    ThreeWayCall = data['ThreeWayCall']  # Einstellung 109
+    DownloadModus = data['DownloadModus']  # Einstellung 110
+    RufebisAntwortDownload = ['RufebisAntwortDownload']  # Einstellung 112
+    EinsRufDownload = data['EinsRufDownload']  # Einstellugn 113
+    Rueckrufmodus = data['Rueckrufmodus']  # Einstellung 114
+    Telefonnummer = data['Telefonnummer']  # Einstellung 115
+    TelefonnummerZwei = data['TelefonnummerZwei']  # Einstellung 116
+    KundenNrLeitstelle = data['KundenNrLeitstelle']  # Einstellung 117
+    FernTelNr = data['FernTelNr']  # Einstellung 118
+    FernTelNrZwei = data['FernTelNrZwei']  # Einstellung 119
+    FernTelNrDrei = data['FernTelNrDrei']  # Einstellung 120
+    CommsAcknowledge = data['CommsAcknowledge']  # Einstellung 122
+    RueckstellenReport = data['RueckstellenReport']  # Einstellung 123
+    OpenClose = data['OpenClose']  # Einstellung 124
+    KeinSignalGeschlossen = data['KeinSignalGeschlossen']  # Einstellung 125
+    SpracheinstellungOSDMenu = data['SpracheinstellungOSDMenu']  # Einstellung 126
+    ExternAlarm = data['ExternAlarm']  # Einstellung 128
+    ExternDeaktivieren = data['ExternDeaktivieren']  # Einstellung 129
+    SIAReportModus = data['SIAReportModus']  # Einstellung 131
+    SendeSaboEinbruch = data['SendeSaboEinbruch']  # Einstellung 132
+    SIARst = data['SIARst']  # Einstellung 133        EIGENTLICH 132
+    ContactIDReportRst = data['ContactIDReportRst']  # Einstellung 143
+    VerhaltenZusaetzSchaltausgangEins = data['VerhaltenZusaetzSchaltausgangEins']  # Einstellung 151
+    VerhaltenZusaetzSchaltausgangZwei = data['VerhaltenZusaetzSchaltausgangZwei']  # Einstellung 152
+    VerhaltenZusaetzSchaltausgangDrei = data['VerhaltenZusaetzSchaltausgangDrei']  # Einstellung 153
+    VerhaltenZusaetzSchaltausgangVier = data['VerhaltenZusaetzSchaltausgangVier']  # Einstellung 154
+    VerhaltenZusaetzSchaltausgangFuenf = data['VerhaltenZusaetzSchaltausgangFuenf']  # Einstellung 155
+    VerhaltenZusaetzSchaltausgangSechs = data['VerhaltenZusaetzSchaltausgangSechs']  # Einstellung 156
+    VerhaltenZusaetzSchaltausgangSieben = data['VerhaltenZusaetzSchaltausgangSieben']  # Einstellung 157
+    VerhaltenZusaetzSchaltausgangAcht = data['VerhaltenZusaetzSchaltausgangAcht']  # Einstellung 158
+    InversionZusaetzSchaltausgang = data['InversionZusaetzSchaltausgang']  # Einstellung 159
+    ZeitbestaetigterAlarm = data['ZeitbestaetigterAlarm']  # Einstellung 160
+    BestaetigenInternerLautsprecher = data['BestaetigenInternerLautsprecher']  # Einstellung 161
+    BestaetigenExterneSirene = data['BestaetigenExterneSirene']  # Einstellung 162
+    BestaetigenAlarmEintritt = data['BestaetigenAlarmEintritt']  # Einstellung 163
+    BenutzerResetnachAlarm = data['BenutzerResetnachAlarm']  # Einstellung 164
+    DauerAktivImpulsEinsBisVier = data['DauerAktivImpulsEinsBisVier']  # Einstellung 170
+    Schaltausgangaktivstabil = data['Schaltausgangaktivstabil']  # Einstellung 171
+    DauerDeaktivImpulsEIns = data['DauerDeaktivImpulsEIns']  # Einstellung 172
+    Schaltausgangdeaktivstabil = data['Schaltausgangdeaktivstabil']  # Einstellung 173
+    SchaltausgangFeuer = data['SchaltausgangFeuer']  # Einstellung 174
+    SchaltausgangUeberfall = data['SchaltausgangUeberfall']  # Eisntellung 175
+    WachtCode = data['WachtCode']  # Einstellung 181
+    LetzerAusgangSettlingZeit = data['LetzerAusgangSettlingZeit']  # Einstellung 182
+    DisplayZeileAendern = data['DisplayZeileaendern']  # Einstellung 183
+    FeuerSignalgeber = data['FeuerSignalgeber']  # Einstellung 184
+    SchluesselschalterAutoReset = data['SchluesselschalterAutoReset']  # Einstellung 185
+    AnzahlHomeBeepRuf = data['AnzahlHomeBeepRuf']  # Einstellung 186
+    FastFormatKanalEins = data['FastFormatKanalEins']  # Einstellung 191
+    FastFormatKanalZwei = data['FastFormatKanalZwei']  # Einstellung 192
+    FastFormatKanalDrei = data['FastFormatKanalDrei']  # Einstellung 193
+    FastFormatKanalVier = data['FastFormatKanalVier']  # Einstellung 194
+    FastFormatKanalFuenf = data['FastFormatKanalFuenf']  # Einstellung 195
+    FastFormatKanalSechs = data['FastFormatKanalSechs']  # Einstellung 196
+    FastFormatKanalSieben = data['FastFormatKanalSieben']  # Einstellung 197
+    FastFormatKanalAcht = data['FastFormatKanalAcht']  # Einstellung 198
+    AnzeigeZonenwiederstand = data['AnzeigeZonenwiederstand']  # Einstellung 199
+    FobikoblerEintrittzeit = data['FobikoblerEintrittzeit']  # Einstellung 200
+    EingangsverzoegerungGruppeEins = data['EingangsverzoegerungGruppeEins']  # Einstellung 201
+    PartioniertenSystem = data["PartioniertenSystem"]  # Allgemeine Einstellung
+
+    ConfigFile.close()
 
 #Standard Start Funktionen
 def StartConfigurationFile(x):
-    global UsernameWindows
-    FolderPath = "C:/TerxonSim"
-    ConfigPath = "C:/TerxonSim/TerxonConfig.json"
-    if os.path.exists(FolderPath):
+    if os.path.exists(FolderPathLocalTerxon):
         print("Ordner existiert!")
         if os.path.exists(ConfigPath):
             print("File existiert!")
@@ -152,23 +300,23 @@ def StartConfigurationFile(x):
                 ,'AnzeigeZonenwiederstand' : 0                          #Einstellung 199
                 ,'FobikoblerEintrittzeit' : 1                           #Einstellung 200
                 ,'EingangsverzoegerungGruppeEins' : 1                   #Einstellung 201
-
+                ,'PartioniertenSystem' : 0                              #Allgemeine Einstellung
             }
-            with open('C:/TerxonSim/TerxonConfig.json', 'w') as ConfigFile:
+            with open(CreateFile, 'w') as ConfigFile:
                 json.dump(json_obj, ConfigFile)
             print("File wurde erstellt!")
             ConfigFile.close()
     else:
-        os.mkdir("C:/TerxonSim")
+        os.mkdir(FolderPathLocalTerxon)
         print("Ordner wurde erstellt!")
         StartConfigurationFile(2)
 
 StartConfigurationFile(1)
 
 def ReloadConfig(x):
-         with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
+         with open(ConfigPath, 'r') as ConfigFile:
             data = json.load(ConfigFile)
-         ConfigFile.close()
+
 
 TxtValue = ""
 AusgabeText = ""
@@ -189,148 +337,6 @@ ZonenEinstellungenFunk = "Funk Zone "               #Einstellung Funk X17-X32
 
 #Terxon Config load
 
-
-with open("C:/TerxonSim/TerxonConfig.json", 'r') as ConfigFile:
-    data = json.load(ConfigFile)
-
-    LaenderEinstellung = data["LaenderEinstellung"]                  # Einstellung 000
-    ZonenEinstellungenDef = data["ZonenEinstellungenDef"]           # Einstellung 001 - 016
-    ZonenEinstellungenFunkDef = data["ZonenEinstellungenFunkDef"]   # Einstellung X17 - X32
-    Programmiercode = data["Programmiercode"]                       # Einstellung 020
-    ZonenAbschlussNummer = data["ZonenAbschlussNummer"]             # Einstellung 021
-    InterVolumeNummer = data["InterVolumeNummer"]                   # Einstellung 022
-    FernReset = data["FernReset"]                                   # Einstellung 023
-    Kundenname = data["Kundenname"]                                 # Einstellung 024
-    InternerAlarm = data["InternerAlarm"]                           # Einstellung 025
-    AlarmbeiAktivierung = data["AlarmbeiAktivierung"]               # Einstellung 027
-    StatusAnzeigeAusblenden = data["StatusAnzeigeAusblenden"]       # Einstellung 028
-    ExternAlarmVerzoegerung = data["ExternAlarmVerzoegerung"]       # Einstellung 029
-    Ueberfallalarm = data["Ueberfallalarm"]                         # Einstellung 030
-    ZonenSabotageReset = data["ZonenSabotageReset"]                 # Einstellung 031
-    BedienteileundPartitionen = data["BedienteileundPartitionen"]   # Einstellung 032
-    SystemReset = data["SystemReset"]                               # Einstellung 033
-    UeberfallReset = data["UeberfallReset"]                         # Einstellung 034
-    ErstmelderAlarmausblenden =  data['ErstmelderAlarmausblenden']  # Einstellung 035
-    AlarmAbbruch = data['AlarmAbbruch']                             # Einstellung 036
-    SabotageReportdeaktiv = data['SabotageReportdeaktiv']           # Einstellung 037
-    SystemsabotageReset = data['SystemsabotageReset']               # Einstellung 038
-    AusgangsmodusBereichA = data['AusgangsmodusBereichA']           # Einstellung 039
-    SystemAutoAktivnachAlarm = data['SystemAutoAktivnachAlarm']     # Einstellung 040
-    SirenenVerzögerung = data['SirenenVerzögerung']                 # Einstellung 041
-    Sirenendauer = data['Sirenendauer']                             # Einstellung 042
-    AusgangszeitGesamtbereich = data['AusgangszeitGesamtbereich']   # Einstellung 044
-    EinAusgagsverzögerungVolumen = data['EinAusgagsverzögerungVolumen']             # Einstellung 045
-    SabotagealarmReaktion = data['SabotagealarmReaktion']           # Einstellung 046
-    PartionAAlarmReaktion = data['PartionAAlarmReaktion']             # Einstellung 047
-    Bedienteilsperre = data['Bedienteilsperre']                     # Einstellung 048
-    DatumundUhrzeit  = data['DatumundUhrzeit']                      # Einstellung 051
-    ZonenundSabotageSperren =  data['ZonenundSabotageSperren']      # Einstellung 052
-    AbbruchReset = data['AbbruchReset']                             # Einstellung 053
-    SupervisionFunkmelder = data['SupervisionFunkmelder']           # Einstellung 054
-    LaengeZugangscode = data['LaengeZugangscode']                   # Einstellung 056
-    BatterieTest =  data['BatterieTest']                            # Einstellung 057
-    SupervisionSabotageReset = data['SupervisionSabotageReset']     # Einstellung 058
-    SabotageSirene = data['SabotageSirene']                         # Einstellung 059
-    ZonenverhaltenInternB = 'ZonenverhaltenInternB'                 # Einstellung 060
-    ZonenverhaltenInternBEins =  data['ZonenverhaltenInternBEins']  # Einstellung 061
-    AusgangsmodusInternB = data['AusgangsmodusInternB']             # Einstellung 062
-    AlarmverhaltenInternB = data['AlarmverhaltenInternB']           # Einstellung 063
-    AlarmverhaltenInternBEins = data['AlarmverhaltenInternBEins']   # Einstellung 064
-    AusgangszeitInternB = data['AusgangszeitInternB']               # Einstellung 065
-    ForbikoblerKorrekt = data['ForbikoblerKorrekt']                 # Einstellung 067
-    ForbikoblerEintrittszeiten = data['ForbikoblerEintrittszeiten'] # Einstellung 068
-    ForbikoblerTuersperre = data['ForbikoblerTuersperre']           # Einstellung 069
-    ZonenverhaltenEFInternC = data['ZonenverhaltenEFInternC']       # Einstellung 070
-    ZonenverhaltenEAInternC = data['ZonenverhaltenEAInternC']       # Einstellung 071
-    AusgangsmodusInternC = data['AusgangsmodusInternC']             # Einstellung 072
-    AlarmverhaltenInternC =  data['AlarmverhaltenInternC']          # Einstellung 073
-    AusgangszeitbeiInternC = data['AusgangszeitbeiInternC']         # Einstellung 075
-    AusgangsmodusInternD = data['AusgangsmodusInternD']             # Einstellung 076
-    AlarmverhaltenInternD = data['AlarmverhaltenInternD']           # Einstellung 077
-    AusgangszeitInternD = data['AusgangszeitInternD']               # Einstellung 079
-    ForbikoblerTuerklingel = data['ForbikoblerTuerklingel']         # Einstellung 080
-    VerhaltenRelaisausgangEins = data['VerhaltenRelaisausgangEins'] # Einstellung 081
-    VerhaltenRelaisausgangZwei = data['VerhaltenRelaisausgangZwei'] # Einstellung 082
-    VerhaltenTransistoraugangEins = data['VerhaltenTransistoraugangEins']               # Einstellung 083
-    VerhaltenAusgaengeEinbruchalarm = ['VerhaltenAusgaengeEinbruchalarm']                 # Einstellung 085
-    ZusaetlicheEingangsversoegerung =  data['ZusaetlicheEingangsversoegerung']          # Einstellung 086
-    Bedienteilalarm =  data['Bedienteilalarm']                      # Einstellung 087
-    AlarmBestaetigung = data['AlarmBestaetigung']                     # Einstellung 089
-    Ereignisspeicher =  ['Ereignisspeicher']                        # Einstellung 090
-    AusgangEinsTest =  data['AusgangEinsTest']                      # Einstellung 091
-    AusgangZweiTest = data['AusgangZweiTest']                       # Einstellung 092
-    AusgangDreiTest = data['AusgangDreiTest']                       # Einstellung 093
-    InternLautsprecherTest = data['InternLautsprecherTest']         # Einstellung 094
-    SireneBedienteilTest = data['SireneBedienteilTest']             # Einstellung 095
-    Gehtest = data['Gehtest']                                       # Einstellung 097
-    WerkseinstellungWiedherstellen = data['WerkseinstellungWiedherstellen']           # Einstellung 098
-    ProgrammiermenuVerlassen = data['ProgrammiermenuVerlassen']     # Einstellung 099
-    RufmodusTWG = data['RufmodusTWG']                               # Einstellung 101
-    FormatReport =  data['FormatReport']                            # Einstellung 103
-    Testanruf = data['Testanruf']                                   # Einstellung 105
-    Leitungsverlustmeldung = data['Leitungsverlustmeldung']         # Einstellung 106
-    DynamischerTestanruf = data['DynamischerTestanruf']             # Einstellung 108
-    ThreeWayCall = data['ThreeWayCall']                             # Einstellung 109
-    DownloadModus = data['DownloadModus']                           # Einstellung 110
-    RufebisAntwortDownload =  ['RufebisAntwortDownload']            # Einstellung 112
-    EinsRufDownload = data['EinsRufDownload']                       # Einstellugn 113
-    Rueckrufmodus = data['Rueckrufmodus']                           # Einstellung 114
-    Telefonnummer = data['Telefonnummer']                           # Einstellung 115
-    TelefonnummerZwei = data['TelefonnummerZwei']                   # Einstellung 116
-    KundenNrLeitstelle = data['KundenNrLeitstelle']                 # Einstellung 117
-    FernTelNr = data['FernTelNr']                                   # Einstellung 118
-    FernTelNrZwei = data['FernTelNrZwei']                           # Einstellung 119
-    FernTelNrDrei = data['FernTelNrDrei']                           # Einstellung 120
-    CommsAcknowledge = data['CommsAcknowledge']                     # Einstellung 122
-    RueckstellenReport = data['RueckstellenReport']                 # Einstellung 123
-    OpenClose = data['OpenClose']                                   # Einstellung 124
-    KeinSignalGeschlossen = data['KeinSignalGeschlossen']           # Einstellung 125
-    SpracheinstellungOSDMenu = data['SpracheinstellungOSDMenu']     # Einstellung 126
-    ExternAlarm =  data['ExternAlarm']                              # Einstellung 128
-    ExternDeaktivieren = data['ExternDeaktivieren']                 # Einstellung 129
-    SIAReportModus = data['SIAReportModus']                         # Einstellung 131
-    SendeSaboEinbruch = data['SendeSaboEinbruch']                   # Einstellung 132
-    SIARst = data['SIARst']                                         # Einstellung 133        EIGENTLICH 132
-    ContactIDReportRst = data['ContactIDReportRst']                 # Einstellung 143
-    VerhaltenZusaetzSchaltausgangEins = data['VerhaltenZusaetzSchaltausgangEins']           # Einstellung 151
-    VerhaltenZusaetzSchaltausgangZwei = data['VerhaltenZusaetzSchaltausgangZwei']           # Einstellung 152
-    VerhaltenZusaetzSchaltausgangDrei = data['VerhaltenZusaetzSchaltausgangDrei']           # Einstellung 153
-    VerhaltenZusaetzSchaltausgangVier = data['VerhaltenZusaetzSchaltausgangVier']           # Einstellung 154
-    VerhaltenZusaetzSchaltausgangFuenf = data['VerhaltenZusaetzSchaltausgangFuenf']         # Einstellung 155
-    VerhaltenZusaetzSchaltausgangSechs = data['VerhaltenZusaetzSchaltausgangSechs']         # Einstellung 156
-    VerhaltenZusaetzSchaltausgangSieben = data['VerhaltenZusaetzSchaltausgangSieben']       # Einstellung 157
-    VerhaltenZusaetzSchaltausgangAcht = data['VerhaltenZusaetzSchaltausgangAcht']           # Einstellung 158
-    InversionZusaetzSchaltausgang = data['InversionZusaetzSchaltausgang']                   # Einstellung 159
-    ZeitbestaetigterAlarm = data['ZeitbestaetigterAlarm']                                   # Einstellung 160
-    BestaetigenInternerLautsprecher = data['BestaetigenInternerLautsprecher']               # Einstellung 161
-    BestaetigenExterneSirene = data['BestaetigenExterneSirene']                             # Einstellung 162
-    BestaetigenAlarmEintritt = data['BestaetigenAlarmEintritt']                             # Einstellung 163
-    BenutzerResetnachAlarm = data['BenutzerResetnachAlarm']                                 # Einstellung 164
-    DauerAktivImpulsEinsBisVier = data['DauerAktivImpulsEinsBisVier']                       # Einstellung 170
-    Schaltausgangaktivstabil = data['Schaltausgangaktivstabil']                             # Einstellung 171
-    DauerDeaktivImpulsEIns = data['DauerDeaktivImpulsEIns']                                 # Einstellung 172
-    Schaltausgangdeaktivstabil =  data['Schaltausgangdeaktivstabil']                        # Einstellung 173
-    SchaltausgangFeuer = data['SchaltausgangFeuer']                                         # Einstellung 174
-    SchaltausgangUeberfall = data['SchaltausgangUeberfall']                                 # Eisntellung 175
-    WachtCode = data['WachtCode']                                                           # Einstellung 181
-    LetzerAusgangSettlingZeit = data['LetzerAusgangSettlingZeit']                           # Einstellung 182
-    DisplayZeileAendern = data['DisplayZeileaendern']                                       # Einstellung 183
-    FeuerSignalgeber = data['FeuerSignalgeber']                                             # Einstellung 184
-    SchluesselschalterAutoReset = data['SchluesselschalterAutoReset']                       # Einstellung 185
-    AnzahlHomeBeepRuf = data['AnzahlHomeBeepRuf']                                           # Einstellung 186
-    FastFormatKanalEins = data['FastFormatKanalEins']                                       # Einstellung 191
-    FastFormatKanalZwei = data['FastFormatKanalZwei']                                       # Einstellung 192
-    FastFormatKanalDrei = data['FastFormatKanalDrei']                                       # Einstellung 193
-    FastFormatKanalVier = data['FastFormatKanalVier']                                       # Einstellung 194
-    FastFormatKanalFuenf = data['FastFormatKanalFuenf']                                     # Einstellung 195
-    FastFormatKanalSechs = data['FastFormatKanalSechs']                                     # Einstellung 196
-    FastFormatKanalSieben = data['FastFormatKanalSieben']                                   # Einstellung 197
-    FastFormatKanalAcht = data['FastFormatKanalAcht']                                       # Einstellung 198
-    AnzeigeZonenwiederstand = data['AnzeigeZonenwiederstand']                               # Einstellung 199
-    FobikoblerEintrittzeit = data['FobikoblerEintrittzeit']                                 # Einstellung 200
-    EingangsverzoegerungGruppeEins = data['EingangsverzoegerungGruppeEins']                 # Einstellung 201
-
-    ConfigFile.close()
 
 
 BereichID = 1000
@@ -471,7 +477,6 @@ def ConfirmEntrance(q):
     global DID
     global internCode
     print(AID)
-
     if XID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
@@ -510,7 +515,6 @@ def ConfirmEntrance(q):
         lTxtValue = len(TxtValue)
         if lTxtValue == 0: TxtValue = "0"
 
-    #BereichID = 7890                                                                                #Muss wieder gelöscht werden
 
     iTxtValue= int(TxtValue)
     CodeLenght = len(TxtValue)
@@ -542,6 +546,7 @@ def ConfirmEntrance(q):
     if TxtValue == "" and XID == 2 or AID == 2 or BID == 2 or CID == 2 or DID == 2:
         print("XABCD")
 
+@functools.lru_cache(maxsize=None)
 def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
@@ -554,7 +559,7 @@ def MenüPunkte(Menüpunkt):
     global CID
     global DID
 
-    ReloadConfig(1)
+    #ReloadConfig(1)
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
         AusgabeEins.config(text=str("Menüpunkt: 000"))
@@ -749,61 +754,151 @@ def MenüPunkte(Menüpunkt):
         BereichID = 38
     elif Menüpunkt == 39:
         print("Menüpunkt: 039")
-        AusgabeEins.config(text=str("Menüpunkt: 039"))
+        Text = str(AusgangsmodusBereichA)
+        AusgabeEins.config(text=str("Menüpunkt: 039 | Ausgangsmodus für Gesamtbereich A"))
+        if AusgangsmodusBereichA == 0:
+            AusgabeZwei.config(text=str(Text + " - Ausgangszeit"))
+        elif AusgangsmodusBereichA == 1:
+            AusgabeZwei.config(text=str(Text + " - Manuell "))
+        if AusgangsmodusBereichA == 2:
+            AusgabeZwei.config(text=str(Text + " - Letzte Tür "))
+        elif AusgangsmodusBereichA == 3:
+            AusgabeZwei.config(text=str(Text + " - Schlüsselschalter"))
+        if AusgangsmodusBereichA == 13:
+            AusgabeZwei.config(text=str(Text + " - Sofort"))
+        elif AusgangsmodusBereichA == 14:
+            AusgabeZwei.config(text=str(Text + " - Still "))
+        elif AusgangsmodusBereichA == 15:
+            AusgabeZwei.config(text=str(Text + " - Schlüsselschalter"))
         BereichID = 39
         Delete(1)
     elif Menüpunkt == 40:
         print("Menüpunkt: 040")
-        AusgabeEins.config(text=str("Menüpunkt: 040"))
-        BereichID = 40
+        Text = str(SystemAutoAktivnachAlarm)
+        AusgabeEins.config(text=str("Menüpunkt: 040 | System Auto Aktiv nach Alarm"))
+        if SystemAutoAktivnachAlarm == 0:
+            AusgabeZwei.config(text=str(Text + " - Nie"))
+        elif SystemAutoAktivnachAlarm == 1:
+            AusgabeZwei.config(text=str(Text + " - Einmal"))
+        if SystemAutoAktivnachAlarm == 2:
+            AusgabeZwei.config(text=str(Text + " - Zweimal"))
+        elif SystemAutoAktivnachAlarm == 3:
+            AusgabeZwei.config(text=str(Text + " - Dreimal"))
+        if SystemAutoAktivnachAlarm == 4:
+            AusgabeZwei.config(text=str(Text + " - Immmer"))
+        BereichID =40
         Delete(1)
     elif Menüpunkt == 41:
         print("Menüpunkt: 041")
-        AusgabeEins.config(text=str("Menüpunkt: 041"))
+        Text = str(SirenenVerzögerung)
+        AusgabeEins.config(text=str("Menüpunkt: 041 | Sirenen Verzögerung"))
+        if SirenenVerzögerung == 0:
+            AusgabeZwei.config(text=str(Text + " - Keine Verzögerung"))
+        elif SirenenVerzögerung == 1:
+            AusgabeZwei.config(text=str(Text + " - 1,5 Min Verzögerung"))
+        if SirenenVerzögerung == 2:
+            AusgabeZwei.config(text=str(Text + " - 3 Min Verzögerung"))
+        elif SirenenVerzögerung == 3:
+            AusgabeZwei.config(text=str(Text + " - 5 Min Verzögerung"))
+        if SirenenVerzögerung == 4:
+            AusgabeZwei.config(text=str(Text + " - 10 Min Verzögerung "))
+        elif SirenenVerzögerung == 5:
+            AusgabeZwei.config(text=str(Text + " - 15 Min Verzögerung"))
+        elif SirenenVerzögerung == 6:
+            AusgabeZwei.config(text=str(Text + " - 20 Min Verzögerung "))
         BereichID = 41
         Delete(1)
     elif Menüpunkt == 42:
         print("Menüpunkt: 042")
-        AusgabeEins.config(text=str("Menüpunkt: 042"))
+        Text = str(Sirenendauer)
+        AusgabeEins.config(text=str("Menüpunkt: 042 | Sirenendauer"))
+        if Sirenendauer == 1:
+            AusgabeZwei.config(text=str(Text + " - 1,5 Min "))
+        elif Sirenendauer == 2:
+            AusgabeZwei.config(text=str(Text + " - 3 Min"))
+        if Sirenendauer == 3:
+            AusgabeZwei.config(text=str(Text + " - 5 Min"))
+        elif Sirenendauer == 4:
+            AusgabeZwei.config(text=str(Text + " - 10 Min"))
+        if Sirenendauer == 5:
+            AusgabeZwei.config(text=str(Text + " - 15 Min"))
+        elif Sirenendauer == 6:
+            AusgabeZwei.config(text=str(Text + " - 20 Min "))
         BereichID = 42
-        Delete(1)
-    elif Menüpunkt == 43:
-        print("Menüpunkt: 043")
-        AusgabeEins.config(text=str("Menüpunkt: 043"))
-        BereichID = 43
         Delete(1)
     elif Menüpunkt == 44:
         print("Menüpunkt: 044")
-        AusgabeEins.config(text=str("Menüpunkt: 044"))
+        Text = str(AusgangszeitGesamtbereich)
+        AusgabeEins.config(text=str("Menüpunkt: 044 | Ausgangszeit Gesamtbereich"))
+        if AusgangszeitGesamtbereich == 1:
+            AusgabeZwei.config(text=str(Text + " - 10 Sek"))
+        elif AusgangszeitGesamtbereich == 2:
+            AusgabeZwei.config(text=str(Text + " - 20 Sek"))
+        if AusgangszeitGesamtbereich == 3:
+            AusgabeZwei.config(text=str(Text + " - 30 Sek"))
+        elif AusgangszeitGesamtbereich == 4:
+            AusgabeZwei.config(text=str(Text + " - 45 Sek"))
+        if AusgangszeitGesamtbereich == 5:
+            AusgabeZwei.config(text=str(Text + " - 60 Sek"))
+        elif AusgangszeitGesamtbereich == 6:
+            AusgabeZwei.config(text=str(Text + " - 120 Sek "))
         BereichID = 44
         Delete(1)
     elif Menüpunkt == 45:
         print("Menüpunkt: 045")
-        AusgabeEins.config(text=str("Menüpunkt: 045"))
+        Text = "Lautstärke = "
+        sEinAusgagsverzögerungVolumen = str(EinAusgagsverzögerungVolumen)
+        AusgabeEins.config(text=str("Menüpunkt: 045 | Ein/Ausgangsverzögerung Volume "))
+        if EinAusgagsverzögerungVolumen == 0:
+            AusgabeZwei.config(text=str(Text + sEinAusgagsverzögerungVolumen + " Kein Signal"))
+        elif EinAusgagsverzögerungVolumen >= 1 and EinAusgagsverzögerungVolumen < 10:
+            AusgabeZwei.config(text=str(Text + sEinAusgagsverzögerungVolumen))
         BereichID = 45
         Delete(1)
     elif Menüpunkt == 46:
         print("Menüpunkt: 046")
-        AusgabeEins.config(text=str("Menüpunkt: 046"))
+        Text = str(SabotagealarmReaktion)
+        AusgabeEins.config(text=str("Menüpunkt: 044 | Sabotagealarm Reaktion"))
+        if SabotagealarmReaktion == 0:
+            AusgabeZwei.config(text=str(Text + " Internalarm"))
+        elif SabotagealarmReaktion == 1:
+            AusgabeZwei.config(text=str(Text + " - Bedienteil "))
+        elif SabotagealarmReaktion == 2:
+            AusgabeZwei.config(text=str(Text + " - Intern + Bedienteil "))
         BereichID = 46
         Delete(1)
     elif Menüpunkt == 47:
         print("Menüpunkt: 047")
-        AusgabeEins.config(text=str("Menüpunkt: 047"))
+        Text = str(PartionAAlarmReaktion)
+        AusgabeEins.config(text=str("Menüpunkt: 047 | Partition A Alarm Reaktion"))
+        if PartionAAlarmReaktion == 0:
+            AusgabeZwei.config(text=str(Text + " Bedienteilalarm "))
+        elif PartionAAlarmReaktion == 1:
+            AusgabeZwei.config(text=str(Text + " - Bed.-teil + Lautsprecher  "))
+        elif PartionAAlarmReaktion == 2:
+            AusgabeZwei.config(text=str(Text + " - Bed.-teil + LS + Wählgerät "))
         BereichID = 47
         Delete(1)
     elif Menüpunkt == 48:
         print("Menüpunkt: 048")
-        AusgabeEins.config(text=str("Menüpunkt: 048"))
+        Text = str(Bedienteilsperre)
+        AusgabeEins.config(text=str("Menüpunkt: 048 | Partition A Alarm Reaktion"))
+        if Bedienteilsperre == 0:
+            AusgabeZwei.config(text=str(Text + " AUS"))
+        elif Bedienteilsperre == 1:
+            AusgabeZwei.config(text=str(Text + " - AN"))
         BereichID = 48
         Delete(1)
-    elif Menüpunkt == 50:
-        print("Menüpunkt: 050")
-        AusgabeEins.config(text=str("Menüpunkt: 050"))
-        BereichID = 50
+    elif Menüpunkt == 51:
+        print("Menüpunkt: 051")
+        AusgabeEins.config(text=str("Menüpunkt: 051 | Datum und Uhrzeit"))
+        AusgabeZwei.config(text=str(datetime.today().strftime('%Y-%m-%d %H:%M')))
+        BereichID = 51
         Delete(1)
     Delete(1)
+    print(MenüPunkte.cache_info())
 
+@functools.lru_cache(maxsize=None)
 def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     global TxtValue
     global CodeTxt
@@ -1319,40 +1414,216 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
             data["SystemsabotageReset"] = iTxtValue
             AusgabeZwei.config(text=str(Text + " - Programmier Reset"))
     elif BereichID == 39:
-        if iTxtValue == 0:
-            AlarmAbbruch = 0
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
-            AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm nicht abbrechen"))
-        elif iTxtValue == 1:
-            AlarmAbbruch = 1
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
+        if iTxtValue == 0 and PartioniertenSystem == 0:
+            AusgangsmodusBereichA = 0
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Ausgangszeit"))
+        elif iTxtValue == 1 and PartioniertenSystem == 0:
+            AusgangsmodusBereichA = 1
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Manuell"))
+        elif iTxtValue == 2 and PartioniertenSystem == 0:
+            AusgangsmodusBereichA = 2
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Letzte Tür"))
+        elif iTxtValue == 3 and PartioniertenSystem == 0:
+            AusgangsmodusBereichA = 3
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Sofort"))
+        if iTxtValue == 3 and PartioniertenSystem == 0:
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = 13
+            AusgabeZwei.config(text=str(Text + " - Still"))
+        elif iTxtValue == 4 and PartioniertenSystem == 0:
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = 14
+            AusgabeZwei.config(text=str(Text + " - Schlüsselschalter "))
+        elif iTxtValue == 5 and PartioniertenSystem == 0:
+            Text = str(AusgangsmodusBereichA)
+            data["AusgangsmodusBereichA"] = 15
             AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm abbrechen "))
     elif BereichID == 40:
         if iTxtValue == 0:
-            AlarmAbbruch = 0
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
-            AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm nicht abbrechen"))
+            SystemAutoAktivnachAlarm = iTxtValue
+            Text = str(SystemAutoAktivnachAlarm)
+            data["SystemAutoAktivnachAlarm"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Nie"))
         elif iTxtValue == 1:
-            AlarmAbbruch = 1
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
-            AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm abbrechen "))
+            SystemAutoAktivnachAlarm = iTxtValue
+            Text = str(SystemAutoAktivnachAlarm)
+            data["SystemAutoAktivnachAlarm"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Einmal"))
+        if iTxtValue == 2:
+            SystemAutoAktivnachAlarm = iTxtValue
+            Text = str(SystemAutoAktivnachAlarm)
+            data["SystemAutoAktivnachAlarm"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Zweimal"))
+        elif iTxtValue == 3:
+            SystemAutoAktivnachAlarm = iTxtValue
+            Text = str(SystemAutoAktivnachAlarm)
+            data["SystemAutoAktivnachAlarm"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Dreimal"))
+        elif iTxtValue == 4:
+            SystemAutoAktivnachAlarm = iTxtValue
+            Text = str(SystemAutoAktivnachAlarm)
+            data["SystemAutoAktivnachAlarm"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Immer"))
     elif BereichID == 41:
         if iTxtValue == 0:
-            AlarmAbbruch = 0
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
-            AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm nicht abbrechen"))
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - Keine Verzögerung "))
         elif iTxtValue == 1:
-            AlarmAbbruch = 1
-            Text = str(AlarmAbbruch)
-            data["AlarmAbbruch"] = iTxtValue
-            AusgabeZwei.config(text=str(Text + " - Benutzer kann Falschalarm abbrechen "))
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 1,5 Min Verzögerung"))
+        elif iTxtValue == 2:
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 3 Min Verzögerung"))
+        elif iTxtValue == 3:
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 5 Min Verzögerung "))
+        elif iTxtValue == 4:
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 10 Min Verzögerung"))
+        elif iTxtValue == 5:
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 15 Min Verzögerung"))
+        elif iTxtValue == 6:
+            SirenenVerzögerung = iTxtValue
+            Text = str(SirenenVerzögerung)
+            data["SirenenVerzögerung"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 20 Min Verzögerung"))
+    elif BereichID == 42:
+        if iTxtValue == 1:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 1,5 Min"))
+        elif iTxtValue == 2:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 3 Min "))
+        elif iTxtValue == 3:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 5 Min"))
+        elif iTxtValue == 4:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 10 Min"))
+        elif iTxtValue == 5:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 15 Min"))
+        elif iTxtValue == 6:
+            Sirenendauer = iTxtValue
+            Text = str(Sirenendauer)
+            data["Sirenendauer"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 20 Min"))
+    elif BereichID == 44:
+        if iTxtValue == 1:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 10 Sek"))
+        elif iTxtValue == 2:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 20 Sek"))
+        elif iTxtValue == 3:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 30 Sek"))
+        elif iTxtValue == 4:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 45 Sek "))
+        elif iTxtValue == 5:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 60 Sek "))
+        elif iTxtValue == 6:
+            AusgangszeitGesamtbereich = iTxtValue
+            Text = str(AusgangszeitGesamtbereich)
+            data["AusgangszeitGesamtbereich"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " - 120 Sek"))
+    elif BereichID == 45:
+        sEinAusgagsverzögerungVolumen = str(iTxtValue)
+        if iTxtValue == 0:
+            EinAusgagsverzögerungVolumen = iTxtValue
+            Text = "Lautstärke = "
+            data["EinAusgagsverzögerungVolumen"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + sEinAusgagsverzögerungVolumen + " Aus"))
+        elif iTxtValue > 0 and iTxtValue <= 9:
+            EinAusgagsverzögerungVolumen = iTxtValue
+            Text = "Lautstärke = "
+            data["EinAusgagsverzögerungVolumen"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + sEinAusgagsverzögerungVolumen))
+    elif BereichID == 46:
+        if iTxtValue == 0:
+            Text = str(iTxtValue)
+            data["SabotagealarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " Internalarmn"))
+        elif iTxtValue == 1:
+            Text = str(iTxtValue)
+            data["SabotagealarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + "Bedienteil"))
+        elif iTxtValue == 2:
+            Text = str(iTxtValue)
+            data["SabotagealarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + "Intern + Bedienteil "))
+    elif BereichID == 47:
+        if iTxtValue == 0:
+            Text = str(iTxtValue)
+            data["PartionAAlarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " Bedienteilalarm"))
+        elif iTxtValue == 1:
+            Text = str(iTxtValue)
+            data["PartionAAlarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " Bed.-teil + Lautsprecher"))
+        elif iTxtValue == 2:
+            Text = str(iTxtValue)
+            data["PartionAAlarmReaktion"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " Bed.-teil + LS + Wählgerät"))
+    elif BereichID == 48:
+        if iTxtValue == 0:
+            Text = str(iTxtValue)
+            data["Bedienteilsperre"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " Aus"))
+        elif iTxtValue == 1:
+            Text = str(iTxtValue)
+            data["Bedienteilsperre"] = iTxtValue
+            AusgabeZwei.config(text=str(Text + " AN"))
+    elif BereichID == 51:
+        if XID == 1:
+            BereichID = 7890
 
-    with open("C:/TerxonSim/TerxonConfig.json", 'w') as ConfigFile:
+
+
+    with open(ConfigPath, 'w') as ConfigFile:
         Write = json.dump(data, ConfigFile)
     ConfigFile.close()
 
@@ -1360,6 +1631,10 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     BereichID = 7890
     AusgabeEins.config(text=str("Programmiermodus"))
     VarNull(1)
+
+MenüPunkte.cache_clear()
+print(EinstellungsPunkte.cache_info())
+print(MenüPunkte.cache_info())
 
 #Windows
 win = ttk.Tk()
