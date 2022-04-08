@@ -1,10 +1,11 @@
+import tkinter
 import tkinter as ttk
 import os
 import json
 import functools
 from datetime import datetime
-
-
+import time
+import threading
 
 UsernameWindows = os.getlogin()
 FolderPathLocal = "C:/Users/" + UsernameWindows + "/AppData/Local"
@@ -14,6 +15,7 @@ ConfigPath = CreateFile
 
 #def LoadConfig(x):
    # globals().update(locals())
+
 with open(ConfigPath, 'r') as ConfigFile:
     data = json.load(ConfigFile)
     LaenderEinstellung = data["LaenderEinstellung"]  # Einstellung 000
@@ -311,11 +313,22 @@ def StartConfigurationFile(x):
         print("Ordner wurde erstellt!")
         StartConfigurationFile(2)
 
-StartConfigurationFile(1)
-
 def ReloadConfig(x):
-         with open(ConfigPath, 'r') as ConfigFile:
-            data = json.load(ConfigFile)
+    global data, newdata
+    f = open(ConfigPath)
+    content = f.read()
+    f.close()
+    if content != data:
+        print("File was modified! Reloading it...")
+        data = json.loads(content)
+        newdata = content
+    time.sleep(0)  # Adjust this to get the best performance
+
+StartConfigurationFile(1)
+#threading.Thread(target=ReloadConfig(1)).start()
+
+
+
 
 
 TxtValue = ""
@@ -468,6 +481,7 @@ def ConfirmEntrance(q):
     global TxtValue
     global BereichID
     global AusgabeText
+    global ZonenNummer
     global sZonenNummer
     global XID
     global HID
@@ -477,6 +491,7 @@ def ConfirmEntrance(q):
     global DID
     global internCode
     print(AID)
+    ReloadConfig(1)
     if XID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
@@ -537,7 +552,7 @@ def ConfirmEntrance(q):
             Delete(1)
             BereichID = 7890
             print("BereichID: ", BereichID)
-    elif BereichID == 7890:
+    elif BereichID == 7890 and NullCodeLenght == 3:
         print("Menüpunkt-Code")
         MenüPunkte(iTxtValue)
     elif BereichID < 250:
@@ -546,20 +561,20 @@ def ConfirmEntrance(q):
     if TxtValue == "" and XID == 2 or AID == 2 or BID == 2 or CID == 2 or DID == 2:
         print("XABCD")
 
-@functools.lru_cache(maxsize=None)
+#@functools.lru_cache(maxsize=None)
 def MenüPunkte(Menüpunkt):
     global TxtValue
     global BereichID
     global ZonenNummer
-    #global sZoneNummer
+    global sZoneNummer
     global XID
     global AID
     global HID
     global BID
     global CID
     global DID
-
-    #ReloadConfig(1)
+    print("Warum")
+    ReloadConfig(1)
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
         AusgabeEins.config(text=str("Menüpunkt: 000"))
@@ -896,9 +911,9 @@ def MenüPunkte(Menüpunkt):
         BereichID = 51
         Delete(1)
     Delete(1)
-    print(MenüPunkte.cache_info())
+    #print(MenüPunkte.cache_info())
 
-@functools.lru_cache(maxsize=None)
+#@functools.lru_cache(maxsize=None)
 def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     global TxtValue
     global CodeTxt
@@ -1632,14 +1647,16 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     AusgabeEins.config(text=str("Programmiermodus"))
     VarNull(1)
 
-MenüPunkte.cache_clear()
-print(EinstellungsPunkte.cache_info())
-print(MenüPunkte.cache_info())
+#MenüPunkte.cache_clear()
+#print(EinstellungsPunkte.cache_info())
+#print(MenüPunkte.cache_info())
+
 
 #Windows
 win = ttk.Tk()
 win.title('Terxon Simulator')
 win.geometry('380x440')
+win.iconbitmap('H:/R.ico')
 
 #row 1
 CodeTxt = ttk.StringVar()
