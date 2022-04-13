@@ -5,16 +5,12 @@ import json
 import functools
 from datetime import datetime
 import time
-import threading
 
 UsernameWindows = os.getlogin()
 FolderPathLocal = "C:/Users/" + UsernameWindows + "/AppData/Local"
 FolderPathLocalTerxon = FolderPathLocal + "/TerxonSimulation"
 CreateFile = FolderPathLocalTerxon + "/TerxonConfig.json"
 ConfigPath = CreateFile
-
-#def LoadConfig(x):
-   # globals().update(locals())
 
 with open(ConfigPath, 'r') as ConfigFile:
     data = json.load(ConfigFile)
@@ -313,7 +309,7 @@ def StartConfigurationFile(x):
         print("Ordner wurde erstellt!")
         StartConfigurationFile(2)
 
-def ReloadConfig(x):
+def ReloadConfig(x):    #Funktioniert derzeit noch nicht
     global data, newdata
     f = open(ConfigPath)
     content = f.read()
@@ -325,11 +321,6 @@ def ReloadConfig(x):
     time.sleep(0)  # Adjust this to get the best performance
 
 StartConfigurationFile(1)
-#threading.Thread(target=ReloadConfig(1)).start()
-
-
-
-
 
 TxtValue = ""
 AusgabeText = ""
@@ -350,28 +341,13 @@ ZonenEinstellungenFunk = "Funk Zone "               #Einstellung Funk X17-X32
 
 #Terxon Config load
 
-
-
 BereichID = 1000
-ModusName = ""
 #1000 = Start
 #999 = 0 Bereich
 #7890 = Programmier Bereich
 # x>250 = Menüpunkte Programmierbereich
 
-
-
-def HakenaddToTxt(x):
-    global TxtValue
-    global HID
-    global internCode
-    HID = 1
-    internCode = internCode + str(x) + "#"
-    TxtValue = TxtValue + str(x)
-    CodeTxt.set(TxtValue)
-    print("def addToTxt:(", x, ") =", TxtValue)
-
-def AaddToTxt(x):
+def AaddToTxt(x):       #GUI Eingabe wird verarbeitet bei Drücekn der Taste "A"
     global TxtValue
     global AID
     global internCode
@@ -382,7 +358,7 @@ def AaddToTxt(x):
     print("def addToTxt:(", x, ") =", TxtValue)
     print (internCode)
 
-def BaddToTxt(x):
+def BaddToTxt(x):   #GUI Eingabe wird verarbeitet bei Drücekn der Taste "B"
     global TxtValue
     global BID
     global internCode
@@ -392,7 +368,7 @@ def BaddToTxt(x):
     CodeTxt.set(TxtValue)
     print("def addToTxt:(", x, ") =", TxtValue)
 
-def CaddToTxt(x):
+def CaddToTxt(x):   #GUI Eingabe wird verarbeitet bei Drücekn der Taste "C"
     global TxtValue
     global CID
     global internCode
@@ -402,7 +378,7 @@ def CaddToTxt(x):
     CodeTxt.set(TxtValue)
     print("def addToTxt:(", x, ") =", TxtValue)
 
-def DaddToTxt(x):
+def DaddToTxt(x):   #GUI Eingabe wird verarbeitet bei Drücekn der Taste "D"
     global TxtValue
     global DID
     global internCode
@@ -412,7 +388,7 @@ def DaddToTxt(x):
     CodeTxt.set(TxtValue)
     print("def addToTxt:(", x, ") =", TxtValue)
 
-def XaddToTxt(x):
+def XaddToTxt(x):           #GUI Eingabe wird verarbeitet bei Drücekn der Taste "X"
     global TxtValue
     global XID
     global internCode
@@ -422,15 +398,7 @@ def XaddToTxt(x):
     XID = 1
     print("def addToTxt:(", x, ") =", TxtValue)
 
-def addToTxt(x):
-    global TxtValue
-    global internCode
-    TxtValue = TxtValue + str(x)
-    internCode = internCode + str(x)
-    CodeTxt.set(TxtValue)
-    print("def addToTxt:(", x, ") =",  TxtValue)
-
-def Delete(x):
+def Delete(x):          #Löschen des Eingabe Feldes der GUI
     global  TxtValue
     global Code
     global internCode
@@ -440,7 +408,7 @@ def Delete(x):
     CodeTxt.set(TxtValue)
     print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
 
-def DeleteAll(x):
+def DeleteAll(x):       #Zurücksetzen der gesamten Variablen im Programm (Nur Live Variabeln nicht Config Datei)
     global  TxtValue
     global Code
     global XID
@@ -463,21 +431,20 @@ def DeleteAll(x):
     CodeTxt.set(TxtValue)
     print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
 
-def VarNull(x):
-    global XID
-    global HID
-    global AID
-    global BID
-    global CID
-    global DID
-    AID = 0
-    BID = 0
-    CID = 0
-    DID = 0
-    XID = 0
-    HID = 0
+def addToTxt(x):        #Schreiben in den GUI
+    global TxtValue
+    global internCode
+    global BereichID
+    TxtValue = TxtValue + str(x)
+    internCode = internCode + str(x)
+    CodeTxt.set(TxtValue)
+    print("def addToTxt:(", x, ") =",  TxtValue)
+    StrInternCode = str(internCode)
+    if StrInternCode == "07890" and BereichID == 1000:
+        BereichID = 7890
+        print("BereichID: " + BereichID)
 
-def ConfirmEntrance(q):
+def ConfirmEntrance(q):     #Bei bBest#tigen mit dem Hareken wird diese Funktion ausgeführt
     global TxtValue
     global BereichID
     global AusgabeText
@@ -492,6 +459,8 @@ def ConfirmEntrance(q):
     global internCode
     print(AID)
     ReloadConfig(1)
+
+    #Frägt ab ob ein X, Harken, A, B, C, D geschrieben wurde und löscht das "#" raus
     if XID == 1:
         ohneX = internCode.split("#")
         TxtValue = ohneX[1]
@@ -537,14 +506,14 @@ def ConfirmEntrance(q):
     NullFront = "%03d" % (iTxtValue)
     print(NullFront)
     NullCodeLenght = len(NullFront)
-    if iTxtValue == 0 and BereichID == 1000 and  CodeLenght == 1:
+    if iTxtValue == 0 and BereichID == 1000 and  CodeLenght == 1: #Bei Eingabe von "0" wird BereichID auf "999" gesetzt damit man mit "7890" fortfahren kann
         print("0 Bereich: Programmier Passwort eingeben")
         AusgabeEins.config(text=str("Programmier-Passwort eingeben"))
         print(AusgabeText)
         Delete(1)
         BereichID = 999
         print(BereichID)
-    elif CodeLenght == 4 and BereichID == 999:
+    elif CodeLenght == 4 and BereichID == 999:  #Bei Eingabe von "7890" wird BereichID auf "7890" gesetzt damit befindet man sich im Programmiermodus
         if iTxtValue == 7890:
             print("Passwort richtig")
             AusgabeEins.config(text=str("Programmiermodus"))
@@ -552,17 +521,15 @@ def ConfirmEntrance(q):
             Delete(1)
             BereichID = 7890
             print("BereichID: ", BereichID)
-    elif BereichID == 7890 and NullCodeLenght == 3:
+    elif BereichID == 7890 and NullCodeLenght == 3: #Auswahl des Menüpunktes von 001-201 Sprint anschließend in Funktion "Menüpunkte"
         print("Menüpunkt-Code")
         MenüPunkte(iTxtValue)
-    elif BereichID < 250:
+    elif BereichID < 250: #Auswahl des "EinstellungsPunkte" durch BreiechID die von "MenüPunkte" kommt, BereichID wird hier immer nur Unter 250
         print("<250")
         EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer)
-    if TxtValue == "" and XID == 2 or AID == 2 or BID == 2 or CID == 2 or DID == 2:
-        print("XABCD")
 
-#@functools.lru_cache(maxsize=None)
-def MenüPunkte(Menüpunkt):
+#@functools.lru_cache(maxsize=None)         #Bei aktivieren wird der Cache immer bei Eintritt in diese Funktion gelöscht ConfigDatei wird neu geladen(Auch BereichID usw.)
+def MenüPunkte(Menüpunkt):  #Den jeweilige Menüpunkt der ausgewählt wird, wird hier geöffnet und eine gewisse BereichID gesetzt und die GUI(Grüner Teil) auf den jeweiligen Menüpunkt angezeigt
     global TxtValue
     global BereichID
     global ZonenNummer
@@ -573,7 +540,6 @@ def MenüPunkte(Menüpunkt):
     global BID
     global CID
     global DID
-    print("Warum")
     ReloadConfig(1)
     if Menüpunkt == 0:
         print("Menüpunkt: 000")
@@ -913,15 +879,12 @@ def MenüPunkte(Menüpunkt):
     Delete(1)
     #print(MenüPunkte.cache_info())
 
-#@functools.lru_cache(maxsize=None)
+#@functools.lru_cache(maxsize=None)         #Bei aktivieren wird der Cache immer bei Eintritt in diese Funktion gelöscht ConfigDatei wird neu geladen(Auch BereichID usw.)
 def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     global TxtValue
     global CodeTxt
     global BereichID
     global XID
-    global HakenID
-    #global ZonenNummer
-    #global sZonenNummer
     global ModusName
     print(sZonenNummer)
     if BereichID == 0 and CodeLenght > 0 and CodeLenght <= 2:
@@ -1636,9 +1599,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
         if XID == 1:
             BereichID = 7890
 
-
-
-    with open(ConfigPath, 'w') as ConfigFile:
+    with open(ConfigPath, 'w') as ConfigFile:   #Schreiben in die Config Datei
         Write = json.dump(data, ConfigFile)
     ConfigFile.close()
 
@@ -1648,8 +1609,8 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
     VarNull(1)
 
 #MenüPunkte.cache_clear()
-#print(EinstellungsPunkte.cache_info())
-#print(MenüPunkte.cache_info())
+#print(EinstellungsPunkte.cache_info())     #Abrufen der Cache Daten von EinstellungsPunkte
+#print(MenüPunkte.cache_info())             #Abrufen der Cache Daten von MenüPunkte
 
 
 #Windows
