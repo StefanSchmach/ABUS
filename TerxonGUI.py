@@ -347,6 +347,39 @@ BereichID = 1000
 #7890 = Programmier Bereich
 # x>250 = Menüpunkte Programmierbereich
 
+def Delete(x):          #Löschen des Eingabe Feldes der GUI
+    global  TxtValue
+    global Code
+    global internCode
+    internCode = ""
+    Code = ""
+    TxtValue = ""
+    CodeTxt.set(TxtValue)
+    print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
+
+def DeleteAll(x):       #Zurücksetzen der gesamten Variablen im Programm (Nur Live Variabeln nicht Config Datei)
+    global  TxtValue
+    global Code
+    global XID
+    global HID
+    global AID
+    global BID
+    global CID
+    global DID
+    HID = 0
+    XID = 0
+    AID = 0
+    BID = 0
+    CID = 0
+    DID = 0
+    XID = 0
+    AusgabeEins.config(text=str(""))
+    AusgabeZwei.config(text=str(""))
+    Code = ""
+    TxtValue = ""
+    CodeTxt.set(TxtValue)
+    print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
+
 def AaddToTxt(x):       #GUI Eingabe wird verarbeitet bei Drücekn der Taste "A"
     global TxtValue
     global AID
@@ -397,39 +430,10 @@ def XaddToTxt(x):           #GUI Eingabe wird verarbeitet bei Drücekn der Taste
     CodeTxt.set(TxtValue)
     XID = 1
     print("def addToTxt:(", x, ") =", TxtValue)
-
-def Delete(x):          #Löschen des Eingabe Feldes der GUI
-    global  TxtValue
-    global Code
-    global internCode
-    internCode = ""
-    Code = ""
-    TxtValue = ""
-    CodeTxt.set(TxtValue)
-    print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
-
-def DeleteAll(x):       #Zurücksetzen der gesamten Variablen im Programm (Nur Live Variabeln nicht Config Datei)
-    global  TxtValue
-    global Code
-    global XID
-    global HID
-    global AID
-    global BID
-    global CID
-    global DID
-    HID = 0
-    XID = 0
-    AID = 0
-    BID = 0
-    CID = 0
-    DID = 0
-    XID = 0
-    AusgabeEins.config(text=str(""))
-    AusgabeZwei.config(text=str(""))
-    Code = ""
-    TxtValue = ""
-    CodeTxt.set(TxtValue)
-    print("Eingabe gelöscht", "CodeTxt Wert: ", CodeTxt, "TxtValue Wert: ",TxtValue)
+    if BereichID <= 250:
+        BereichID == 7890
+        AusgabeEins.config(text=str("Programmiermodus"))
+        Delete(1)
 
 def addToTxt(x):        #Schreiben in den GUI
     global TxtValue
@@ -442,7 +446,11 @@ def addToTxt(x):        #Schreiben in den GUI
     StrInternCode = str(internCode)
     if StrInternCode == "07890" and BereichID == 1000:
         BereichID = 7890
-        print("BereichID: " + BereichID)
+        strBereichID = str(BereichID)
+        print("BereichID: " + strBereichID)
+        AusgabeEins.config(text=str("Programmiermodus"))
+        Delete(1)
+
 
 def ConfirmEntrance(q):     #Bei bBest#tigen mit dem Hareken wird diese Funktion ausgeführt
     global TxtValue
@@ -1617,7 +1625,7 @@ def EinstellungsPunkte(iTxtValue, CodeLenght, sZonenNummer):
 win = ttk.Tk()
 win.title('Terxon Simulator')
 win.geometry('380x440')
-win.iconbitmap('H:/R.ico')
+#win.iconbitmap('H:/R.ico')
 
 #row 1
 CodeTxt = ttk.StringVar()
